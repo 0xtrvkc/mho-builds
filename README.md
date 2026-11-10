@@ -61,7 +61,7 @@ The armor data lives inside `index.html`, between the `DATA_START` and `DATA_END
    python update_data.py data/armor_list.xlsx index.html
    ```
 
-   It rewrites the armor data and sets the data date to today. It also prints any skill missing a max level and any set skill missing from the set table.
+   It rewrites the armor data and sets the data date (see "Data date" below). It also prints any skill missing a max level and any set skill missing from the set table.
 
 3. If it reports missing items, add them to the tables near the top of the script in `index.html`:
 
@@ -78,12 +78,22 @@ The armor data lives inside `index.html`, between the `DATA_START` and `DATA_END
 
 To change when the amber warning appears, edit `STALE_DAYS` (default 14) in `index.html`.
 
+## Data date
+
+The date in the page header is the day the spreadsheet was uploaded, not the day the updater ran. The updater picks it in this order:
+
+1. The date of the last git commit that changed `data/armor_list.xlsx`. Uploading the file on GitHub creates that commit, so this is the upload date.
+2. If the file has uncommitted changes (you are running the script locally before pushing), today's date.
+3. Outside a git repository: an `Info` sheet with a date in cell `B1`, then the workbook's last-saved date, then today.
+
+The updater prints which one it used. Only a commit that changes `data/armor_list.xlsx` moves the date, so editing `index.html` or the README does not.
+
 ## Automatic updates (GitHub Actions)
 
 The repo includes `.github/workflows/update-data.yml`. Once it is pushed, you do not need to run the script yourself:
 
 1. Replace `data/armor_list.xlsx` with the new spreadsheet. You can do this in the browser: open the `data` folder on GitHub, choose **Add file > Upload files**, drop in the new file with the same name, and commit.
-2. The workflow runs automatically, rebuilds the data in `index.html`, resets the data date and commits the change.
+2. The workflow runs automatically, rebuilds the data in `index.html`, sets the data date from the upload and commits the change.
 3. GitHub Pages then redeploys the site. This usually takes a minute or two after the workflow finishes.
 
 Open the **Actions** tab to see each run. The run summary lists any skill missing a max level or any set skill missing from the set table. Those still need a manual edit in `index.html` (see the tables above). You can also run the workflow by hand from the Actions tab with **Run workflow**.
