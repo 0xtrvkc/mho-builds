@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Rebuild the armor data inside index.html from a spreadsheet.
 
-Usage:  python update_data.py MHO_armor_list.xlsx [index.html]
+Usage:  python update_data.py data/armor_list.xlsx [index.html]
 
 Expected columns (row 1 is a header, order matters):
   Name | Part | Set | Rarity | Defense | Skills | Set Skill

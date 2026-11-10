@@ -58,7 +58,7 @@ The armor data lives inside `index.html`, between the `DATA_START` and `DATA_END
 
    ```bash
    pip install openpyxl
-   python update_data.py MHO_armor_list.xlsx index.html
+   python update_data.py data/armor_list.xlsx index.html
    ```
 
    It rewrites the armor data and sets the data date to today. It also prints any skill missing a max level and any set skill missing from the set table.
@@ -83,6 +83,7 @@ To change when the amber warning appears, edit `STALE_DAYS` (default 14) in `ind
 | File | Purpose |
 |---|---|
 | `index.html` | The whole app: markup, styles, script and data |
+| `data/armor_list.xlsx` | The armor data as a spreadsheet. Edit it, then run the updater |
 | `update_data.py` | Rebuilds the armor data in `index.html` from a spreadsheet |
 | `README.md` | This file |
 
