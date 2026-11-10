@@ -78,6 +78,21 @@ The armor data lives inside `index.html`, between the `DATA_START` and `DATA_END
 
 To change when the amber warning appears, edit `STALE_DAYS` (default 14) in `index.html`.
 
+## Automatic updates (GitHub Actions)
+
+The repo includes `.github/workflows/update-data.yml`. Once it is pushed, you do not need to run the script yourself:
+
+1. Replace `data/armor_list.xlsx` with the new spreadsheet. You can do this in the browser: open the `data` folder on GitHub, choose **Add file > Upload files**, drop in the new file with the same name, and commit.
+2. The workflow runs automatically, rebuilds the data in `index.html`, resets the data date and commits the change.
+3. GitHub Pages then redeploys the site. This usually takes a minute or two after the workflow finishes.
+
+Open the **Actions** tab to see each run. The run summary lists any skill missing a max level or any set skill missing from the set table. Those still need a manual edit in `index.html` (see the tables above). You can also run the workflow by hand from the Actions tab with **Run workflow**.
+
+Notes:
+
+- In **Settings > Actions > General > Workflow permissions**, choose **Read and write permissions** if the commit step fails with a permissions error.
+- If the site does not redeploy after the automatic commit, re-run the Pages deployment from the Actions tab.
+
 ## Files
 
 | File | Purpose |
@@ -85,6 +100,7 @@ To change when the amber warning appears, edit `STALE_DAYS` (default 14) in `ind
 | `index.html` | The whole app: markup, styles, script and data |
 | `data/armor_list.xlsx` | The armor data as a spreadsheet. Edit it, then run the updater |
 | `update_data.py` | Rebuilds the armor data in `index.html` from a spreadsheet |
+| `.github/workflows/update-data.yml` | Rebuilds `index.html` automatically when `data/armor_list.xlsx` changes |
 | `README.md` | This file |
 
 ## Data source
