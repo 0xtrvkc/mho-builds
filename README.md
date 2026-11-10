@@ -1,4 +1,5 @@
 # Outlanders Armor Planner
+https://0xtrvkc.github.io/mho-builds/
 
 A single-file, dark-mode armor build planner for **Monster Hunter Outlanders**. Type up to three priority skills and the planner shows complete, side-by-side loadouts that trade one skill against another, without wasting levels over the cap.
 
