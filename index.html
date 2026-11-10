@@ -4,216 +4,268 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Outlanders Armor Planner</title>
-<meta name="theme-color" content="#0b0b0c">
+<meta name="theme-color" content="#0c0d10">
 <meta name="description" content="Armor build planner for Monster Hunter Outlanders. Pick up to 3 priority skills and compare trade-off builds.">
 <style>
-:root{color-scheme:dark;--bg:#0b0b0c;--panel:#121214;--line:#232326;--line2:#33333a;--tx:#e8e8ea;--mute:#8a8a93;--acc:#9db4ff;--ok:#8fd3a8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-*{box-sizing:border-box}
-html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif}
-header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--line)}
-h1{font-size:15px;font-weight:600;letter-spacing:.04em;margin:0;text-transform:uppercase}
-h2{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:0 0 10px}
-a{color:var(--acc);text-decoration:none}a:hover{text-decoration:underline}
-.bar{display:flex;gap:16px;align-items:center;color:var(--mute);font-size:13px;flex-wrap:wrap}
-select,input,textarea,button{font:inherit;color:var(--tx);background:var(--panel);border:1px solid var(--line2);border-radius:6px}
-select,input{padding:6px 8px}
-button{padding:6px 10px;cursor:pointer}button:hover{border-color:var(--mute)}
-main{display:grid;grid-template-columns:320px 1fr;gap:24px;padding:24px;max-width:1200px;margin:0 auto}
-@media(max-width:860px){main{grid-template-columns:1fr;padding:16px}}
-section{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:16px}
-.side{min-width:0}
-.prio{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line2);border-radius:6px;margin-bottom:6px}
-.prio b{color:var(--acc);font-weight:600;width:22px}
-.prio span{flex:1}
-.prio button{padding:2px 8px;color:var(--mute);font-size:12px}
-.empty{color:var(--mute);font-size:13px}
-#q{width:100%;margin-bottom:8px}
-#pick{max-height:420px;overflow:auto}
-.sk{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;padding:9px 4px}
-.sk:hover{background:#17171a}
-.sk small{color:var(--mute);white-space:nowrap}
-.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
-.slots section{margin:0}
-.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
-.sh h2{margin:0}
-.tag{font-size:11px;color:var(--mute);border:1px solid var(--line2);border-radius:10px;padding:1px 8px}
-.tag.ok{color:var(--ok);border-color:#2c4a39}.tag.open{color:var(--acc);border-color:#2f3b63}
-.pc{display:block;width:100%;text-align:left;padding:10px;margin-bottom:6px;border-radius:6px;border:1px solid var(--line2);background:var(--bg)}
-.pc.sel{border-color:var(--acc);background:#10131c}
-.pc.dim{opacity:.4}
-.pn{display:flex;justify-content:space-between;gap:8px;font-weight:500}
-.pn i{font-style:normal;color:var(--mute);font-weight:400;font-size:12px}
-.grp{color:var(--mute);font-size:12px;margin:1px 0 6px}
-.chips{display:flex;flex-wrap:wrap;gap:4px}
-.c{font-size:12px;padding:1px 7px;border:1px solid var(--line2);border-radius:4px;color:var(--mute)}
-.c.p{color:var(--acc);border-color:#2f3b63;background:#141a2b}
-table{width:100%;border-collapse:collapse}
-td{padding:7px 4px;border-bottom:1px solid var(--line)}
-td:nth-child(2){text-align:right;width:44px;font-variant-numeric:tabular-nums}
-td:nth-child(3){text-align:right;width:60px;color:var(--mute);font-size:12px}
-tr.p td:first-child{color:var(--acc)}
-textarea{width:100%;height:200px;font:12px/1.4 ui-monospace,Menlo,Consolas,monospace;padding:8px;margin:10px 0 8px}
-details summary{cursor:pointer;color:var(--mute);font-size:12px;letter-spacing:.1em;text-transform:uppercase}
-.note{color:var(--mute);font-size:12px;margin:0}
-.row{display:flex;align-items:center;gap:8px;margin-top:10px}
-.row b{color:var(--acc);font-weight:600;width:24px}
-.row input{flex:1;min-width:0}
-.st{color:var(--mute);font-size:12px;margin:4px 0 0 32px;min-height:16px}
+:root{color-scheme:dark;--bg:#0c0d10;--s1:#14161b;--s2:#1b1e25;--s3:#262a33;--line:#252932;--line2:#343a47;--tx:#eceef2;--mute:#9aa1b0;--acc:#9db4ff;--ok:#8fd3a8;--warn:#e8b254;--gl:max(16px,env(safe-area-inset-left,0px));--gr:max(16px,env(safe-area-inset-right,0px))}
+.p0{--pc:#8fb0ff;--pb:#8fb0ff26}.p1{--pc:#7fd6a0;--pb:#7fd6a026}.p2{--pc:#f0b866;--pb:#f0b86626}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:72px}
+html.lock{overflow:hidden}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4,p,dl,dd{margin:0}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;margin:0;cursor:pointer;text-align:left;touch-action:manipulation}
+button:disabled{cursor:default}
+a{color:var(--acc);text-decoration:none}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:6px}
 
-.lvl{width:64px;flex:none;text-align:center}
-.list{max-height:300px;overflow:auto;padding-right:2px}
-.pn i{white-space:nowrap}
-.sub{color:var(--mute);font-size:12px;margin:8px 0 0}
+/* app bar */
+.appbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--bg);border-bottom:1px solid var(--line);padding:calc(10px + env(safe-area-inset-top,0px)) var(--gr) 10px var(--gl)}
+.brand{min-width:0}
+.brand h1{font-size:16px;font-weight:650;line-height:1.2;white-space:nowrap}
+.brand p{font-size:12px;color:var(--mute);line-height:1.2;margin-top:2px;white-space:nowrap}
+.appbar-actions{display:flex;gap:8px;flex:none}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border-radius:999px;background:var(--s1);border:1px solid var(--line2);font-size:13px;white-space:nowrap}
+.pill:active{background:var(--s3)}
+.pill:disabled{opacity:.4}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
+.old .dot{background:var(--warn)}
 
-:root{--c0:#8fb0ff;--c1:#7fd6a0;--c2:#f0b866}
-.row:has(#in0) b,tr.p0 td:first-child,.st.s0{color:var(--c0)}
-.row:has(#in1) b,tr.p1 td:first-child{color:var(--c1)}
-.row:has(#in2) b,tr.p2 td:first-child{color:var(--c2)}
-#in0{border-left:3px solid var(--c0)}#in1{border-left:3px solid var(--c1)}#in2{border-left:3px solid var(--c2)}
-.c.p0{color:var(--c0);border-color:var(--c0);background:#8fb0ff1f}
-.c.p1{color:var(--c1);border-color:var(--c1);background:#7fd6a01f}
-.c.p2{color:var(--c2);border-color:var(--c2);background:#f0b8661f}
-main{max-width:1500px;gap:16px;padding:16px}
-section{padding:12px;margin-bottom:12px}
-.slots{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.slots section{padding:10px}
-.sh{margin-bottom:6px}
-.pc{padding:4px 7px;margin-bottom:3px}
-.pn{font-size:13px}.pn i{font-size:11px}
-.grp{font-size:11px;margin:0 0 3px}
-.chips{gap:3px}.c{font-size:11px;padding:0 5px}
-.list{max-height:170px}
-td{padding:4px}
-td:nth-child(2){width:56px;white-space:nowrap}td:nth-child(3){width:90px}
-tr.on td{color:var(--ok)}.mu{color:var(--mute);font-size:12px}
-.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
-.opt{display:block;text-align:left;padding:8px 10px;background:var(--bg)}
-.opt.sel{border-color:var(--acc);background:#10131c}
-.ol{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
-.oc{display:flex;flex-wrap:wrap;gap:4px}.om{color:var(--mute);font-size:11px;margin-top:6px}
+/* layout */
+.wrap{max-width:1240px;margin:0 auto;padding:16px var(--gr) calc(40px + env(safe-area-inset-bottom,0px)) var(--gl)}
+.card{background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:14px}
+.card+.card{margin-top:16px}
+.card-h,.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.card-h h2,.sec-h h2{font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.hint{font-size:12px;color:var(--mute)}
+.res{margin-top:20px}
+.detail>.card{margin-top:0}
+.detail{display:grid;gap:16px}
+.link{color:var(--acc);font-size:13px;min-height:44px;display:inline-flex;align-items:center}
 
-.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px;align-items:start}
-.opt{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;cursor:pointer;text-align:left;transition:border-color .12s}
-.opt:hover{border-color:var(--mute)}
-.opt.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
-.oh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
-.ol{margin:0;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--tx);font-weight:600}
-.om{color:var(--mute);font-size:11px;margin:0}
-.sb{margin-bottom:7px}
-.sb div{display:flex;justify-content:space-between;font-size:12px}
-.sb i{display:block;height:4px;border-radius:2px;background:#232326;margin-top:3px;position:relative;overflow:hidden}
-.sb i b{position:absolute;left:0;top:0;bottom:0;border-radius:2px}
-.rw{border-top:1px solid var(--line);padding:7px 0 6px;cursor:default}
-.rw:hover{background:#17171a}
-.pt{color:var(--mute);font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block}
-.pnm{font-size:13px;display:block;margin-bottom:3px}
-.rw.fr .pnm{color:var(--mute);font-style:italic;margin:0}
-.rw .chips{min-height:0}
-.man{margin-top:16px}.man summary{cursor:pointer;color:var(--mute);font-size:12px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
-#tip{position:fixed;z-index:50;display:none;max-width:280px;background:#17171a;border:1px solid var(--line2);border-radius:8px;padding:10px 12px;font-size:12px;pointer-events:none;box-shadow:0 8px 24px #0009}
-#tip h4{margin:0 0 2px;font-size:13px;font-weight:600}
-#tip .t2{color:var(--mute);margin-bottom:8px}
-#tip .tl{display:flex;justify-content:space-between;gap:16px;padding:2px 0}
-#tip .tl.p0 span:first-child{color:var(--c0)}#tip .tl.p1 span:first-child{color:var(--c1)}#tip .tl.p2 span:first-child{color:var(--c2)}
-#tip .ts{margin-top:8px;padding-top:6px;border-top:1px solid var(--line);color:var(--ok)}
-.sd{border-top:1px solid var(--line);margin-top:12px;padding-top:10px}
-.sd h4{margin:0 0 2px;font-size:13px;font-weight:600;display:flex;justify-content:space-between;gap:8px}
-.sd h4 small{color:var(--mute);font-weight:400}
-.sd p{margin:0 0 4px;color:var(--mute);font-size:12px}
-.sd a{font-size:12px}
-#stamp{color:var(--mute);display:inline-flex;align-items:center;gap:8px;font-size:12px}
-#stamp:hover{color:var(--tx);text-decoration:none}
-#stamp .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);flex:none}
-#stamp.old .dot{background:#e0a84a}
-#stamp .w{color:#e0a84a}
-#tip .tx{color:var(--mute);margin-top:3px}
-tr.on td .mu a{color:var(--acc)}
+/* priorities */
+.prow{display:block;width:100%;border:1px solid var(--line2);border-left:4px solid var(--pc);border-radius:12px;background:var(--s2);padding:6px 6px 8px 12px;margin-bottom:8px}
+.prow:last-child{margin-bottom:0}
+.prow.empty{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 12px;border-style:dashed;background:transparent;color:var(--mute)}
+.prow.empty:active{background:var(--s2)}
+.ptag{flex:none;font-size:12px;font-weight:700;color:var(--pc);letter-spacing:.04em;min-width:22px}
+.pempty{flex:1;font-size:15px}
+.pplus{flex:none;width:28px;height:28px;border-radius:50%;border:1px solid var(--line2);display:grid;place-items:center;font-size:18px;line-height:1;color:var(--pc)}
+.prow-top{display:flex;align-items:center}
+.pmain{flex:1;min-width:0;display:flex;align-items:center;gap:10px;min-height:44px}
+.pname{font-size:17px;font-weight:600;line-height:1.25}
+.ibtn,.xbtn{flex:none;width:44px;height:44px;display:grid;place-items:center;color:var(--mute);border-radius:50%}
+.ibtn span{width:22px;height:22px;border:1.5px solid currentColor;border-radius:50%;display:grid;place-items:center;font:italic 700 13px/1 Georgia,serif}
+.ibtn[aria-expanded=true]{color:var(--pc)}
+.xbtn{font-size:26px;line-height:1}
+.prow-bot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-right:6px}
+.pstat{font-size:13px;color:var(--mute);min-width:0}
+.pstat .warn{display:block;color:var(--warn)}
+.step{flex:none;display:flex;align-items:center;background:var(--bg);border:1px solid var(--line2);border-radius:999px}
+.step button{width:44px;height:44px;display:grid;place-items:center;font-size:22px;line-height:1;border-radius:50%;text-align:center}
+.step button:active:not(:disabled){background:var(--s3)}
+.step button:disabled{opacity:.3}
+.sval{min-width:44px;text-align:center;font-weight:650;font-variant-numeric:tabular-nums;line-height:1.1}
+.sval small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--mute)}
+.pinfo{margin:8px 6px 0 0;padding-top:8px;border-top:1px solid var(--line);font-size:13px;color:var(--mute)}
+.pinfo a{display:inline-block;margin-top:4px}
 
-#tip .x{display:none}
-#tip.sheet{left:0!important;right:0;top:auto!important;bottom:0;max-width:none;border-radius:14px 14px 0 0;pointer-events:auto;padding:14px 16px calc(14px + env(safe-area-inset-bottom,0px));max-height:60vh;overflow:auto}
-#tip.sheet .x{display:block;width:100%;margin-top:12px;min-height:42px}
-.hint{display:none}
-@media(max-width:860px){
- header{padding:12px 16px;gap:8px}
- h1{font-size:14px}
- .bar{gap:10px;width:100%;justify-content:space-between}
- main{padding:12px;gap:12px}
- .side{display:contents}
- .side>section:first-child{order:1}
- main>div:last-child{order:2}
- #sugs{order:3}
- input,select,textarea{font-size:16px;min-height:44px}
- button{min-height:40px}
- .lvl{width:72px}
- #pick .list{max-height:240px!important}
- .hint{display:block;margin:0 0 6px}
- .opts{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;margin:0 -12px;padding:2px 12px 10px;-webkit-overflow-scrolling:touch}
- .opt{flex:0 0 86%;scroll-snap-align:center}
- .rw{padding:9px 0}
- .pnm{font-size:14px}.c{font-size:12px;padding:1px 6px}
- .slots{grid-template-columns:1fr}
- .list{max-height:260px}
- .pc{padding:9px}
- td{padding:7px 4px}
- #stamp{flex-wrap:wrap;font-size:11px}
+/* empty state */
+.start{text-align:center;padding:28px 18px}
+.start h2{font-size:18px;font-weight:650;margin-bottom:6px;letter-spacing:0;text-transform:none;color:var(--tx)}
+.start p{color:var(--mute);margin:0 auto 16px;max-width:36ch}
+
+/* options strip */
+.opts{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(var(--gr)*-1) 16px calc(var(--gl)*-1);padding:2px var(--gr) 6px var(--gl);scroll-padding-left:var(--gl);scrollbar-width:none;overscroll-behavior-x:contain}
+.opts::-webkit-scrollbar{display:none}
+.opt{flex:0 0 min(78%,300px);scroll-snap-align:start;display:block;background:var(--s1);border:1px solid var(--line);border-radius:16px;padding:12px 12px 6px}
+.opt.sel{border-color:var(--acc);background:#161a26;box-shadow:inset 0 0 0 1px var(--acc)}
+.oh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
+.ol{font-size:13px;font-weight:650;letter-spacing:.06em;text-transform:uppercase}
+.om{font-size:12px;color:var(--mute);text-align:right}
+.sb{display:block;margin-bottom:8px}
+.sbt{display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:4px}
+.sbt span:first-child{color:var(--pc);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sbt span:last-child{font-variant-numeric:tabular-nums}
+.bar{display:block;height:6px;border-radius:3px;background:var(--s3);overflow:hidden}
+.bar i{display:block;height:100%;width:100%;background:var(--pc);transform-origin:left;border-radius:3px}
+
+/* selected build */
+.rows{border-top:1px solid var(--line)}
+.r2{display:flex;align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 2px;border-bottom:1px solid var(--line)}
+.r2:last-child{border-bottom:0}
+.r2:active{background:var(--s2)}
+.slotl{flex:none;width:48px;font-size:11px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.pbody{flex:1;min-width:0}
+.piname{display:block;font-size:16px;font-weight:600;line-height:1.3}
+.r2.free .piname{color:var(--mute);font-weight:500}
+.sub{display:block;font-size:13px;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.c{display:inline-block;font-size:12px;line-height:20px;padding:0 8px;border-radius:999px;background:var(--s3);color:var(--mute);white-space:nowrap}
+.c.cp{background:var(--pb);color:var(--pc)}
+.pright{display:flex;align-items:center;flex:none}
+.chev{color:var(--mute);font-size:22px;line-height:1}
+.badge{font-size:11px;font-weight:600;color:var(--acc);border:1px solid #2f3b63;border-radius:999px;padding:0 8px;line-height:20px;margin-right:6px}
+
+/* totals */
+.trow{display:block;padding:9px 0;border-bottom:1px solid var(--line)}
+.trow:last-child{border-bottom:0}
+.tt{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.trow.cp .tt span:first-child{color:var(--pc);font-weight:600}
+.tv{font-variant-numeric:tabular-nums;white-space:nowrap}
+.over{font-size:12px;color:var(--warn);margin-left:6px}
+.trow .bar{margin-top:6px}
+.sub-h{font-size:12px;font-weight:650;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);margin:16px 0 4px}
+.setb{padding:9px 0;border-bottom:1px solid var(--line)}
+.setb:last-of-type{border-bottom:0}
+.setb.on .tv{color:var(--ok)}
+.mu{font-size:12px;color:var(--mute);margin-top:2px}
+.note{font-size:12px;color:var(--mute);margin-top:10px}
+
+/* sheet */
+dialog{border:0;padding:0;background:transparent;color:inherit;max-width:none;max-height:none;width:100%;margin:auto 0 0;overflow:visible}
+dialog::backdrop{background:rgba(0,0,0,.62)}
+.sheet{display:flex;flex-direction:column;background:var(--s1);border:1px solid var(--line2);border-bottom:0;border-radius:20px 20px 0 0;max-height:86vh;max-height:86dvh;animation:up .18s ease-out}
+@keyframes up{from{transform:translateY(28px);opacity:.4}}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--line2);margin:8px auto 0;flex:none}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 6px 6px 16px;border-bottom:1px solid var(--line);flex:none}
+.sheet-h h2{font-size:17px;font-weight:650;line-height:1.25}
+#sheetX{flex:none;width:44px;height:44px;display:grid;place-items:center;font-size:28px;line-height:1;color:var(--mute);border-radius:50%;text-align:center}
+.sheet-b{overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+.searchwrap{position:sticky;top:0;z-index:1;background:var(--s1);padding:10px 16px;border-bottom:1px solid var(--line)}
+.search{display:block;width:100%;height:46px;padding:0 14px;border-radius:12px;background:var(--s2);border:1px solid var(--line2);color:var(--tx);font:16px/1 inherit;appearance:none;-webkit-appearance:none}
+.search::placeholder{color:#6f7684}
+.srow{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:58px;padding:9px 16px;border-bottom:1px solid var(--line)}
+.srow:active{background:var(--s2)}
+.srow.cur{background:#161a26}
+.sr-main{flex:1;min-width:0}
+.sr-name{display:block;font-size:16px;font-weight:600}
+.sr-desc{display:block;font-size:12px;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-lv{flex:none;font-size:12px;color:var(--mute);text-align:right}
+.none{padding:24px 16px;color:var(--mute);text-align:center}
+.sr-div{padding:14px 16px 8px;background:var(--bg);border-bottom:1px solid var(--line)}
+.sr-div b{display:block;font-size:12px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.sr-div span{font-size:12px;color:var(--mute)}
+.pl{display:block;width:100%;padding:10px 16px;border-bottom:1px solid var(--line)}
+.pl:active{background:var(--s2)}
+.pl.cur{background:#161a26}
+.pl.dim .pn,.pl.dim .sub{opacity:.55}
+.pl .r1{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.pn{font-weight:600;font-size:16px}
+.pd{font-size:12px;color:var(--mute);white-space:nowrap}
+.unpin{display:block;width:100%;padding:14px 16px;color:var(--acc);border-bottom:1px solid var(--line);min-height:48px}
+.pi{padding:12px 16px 0}
+.pi-meta{font-size:13px;color:var(--mute);margin-bottom:6px}
+.tl{display:flex;justify-content:space-between;gap:16px;padding:7px 0;border-bottom:1px solid var(--line)}
+.tl.cp span:first-child{color:var(--pc);font-weight:600}
+.tl span:last-child{color:var(--mute);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pi .setb{border-bottom:0;padding-top:12px}
+.pi .setb p{font-size:13px;color:var(--mute);margin-top:2px}
+.acts{display:grid;gap:8px;padding:16px}
+.btn{display:flex;align-items:center;justify-content:center;width:100%;min-height:48px;padding:0 16px;border-radius:12px;background:var(--acc);color:#0c0d10;font-weight:650;text-align:center}
+.btn.ghost{background:var(--s2);color:var(--tx);border:1px solid var(--line2)}
+.btn:active{filter:brightness(.9)}
+.info{padding:14px 16px 8px;display:grid;gap:14px}
+.info dl{display:grid;gap:0;border-top:1px solid var(--line)}
+.info dl>div{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line)}
+.info dt{color:var(--mute)}
+.info p{color:var(--mute);font-size:13px}
+.warnbox{color:var(--warn)!important;border:1px solid #5a4620;background:#2a2212;border-radius:10px;padding:10px 12px}
+
+/* hover tooltip (mouse only) */
+#tip{position:fixed;left:0;top:0;z-index:60;width:290px;background:var(--s2);border:1px solid var(--line2);border-radius:12px;padding:4px 14px 12px;font-size:13px;pointer-events:none;box-shadow:0 10px 30px #000a}
+#tip h4{font-size:14px;margin:10px 0 2px}
+#tip .pi{padding:0}
+
+@media(max-width:359px){.brand p{display:none}}
+@media(min-width:700px){
+ dialog{margin:auto;width:min(520px,calc(100% - 32px))}
+ .sheet{border-radius:18px;border-bottom:1px solid var(--line2);max-height:80vh;max-height:80dvh}
+ .grab{display:none}
 }
+@media(min-width:920px){
+ .wrap{display:grid;grid-template-columns:360px minmax(0,1fr);gap:24px;align-items:start;padding-top:24px}
+ .side{position:sticky;top:84px}
+ .res{margin-top:0}
+ .opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));overflow:visible;margin:0 0 16px;padding:0}
+ .opt{flex:none}
+}
+@media(min-width:1100px){.detail{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}}
+@media(hover:hover){
+ .opt:hover{border-color:var(--mute)}.opt.sel:hover{border-color:var(--acc)}
+ .r2:hover,.srow:hover,.pl:hover{background:var(--s2)}
+ .pill:hover{border-color:var(--mute)}
+ .prow.empty:hover{background:var(--s2)}
+ .xbtn:hover,.ibtn:hover{color:var(--tx)}
+ .step button:hover:not(:disabled){background:var(--s3)}
+ a:hover{text-decoration:underline}.btn:hover{text-decoration:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header>
-  <h1>Outlanders Armor Planner</h1>
-  <div class="bar"><a id="stamp" href="https://gamewith.ai/monster-hunter-outlanders/en/armor" target="_blank" rel="noopener"></a><button id="reset">Reset build</button></div>
+<header class="appbar">
+  <div class="brand"><h1>Armor Planner</h1><p>Monster Hunter Outlanders</p></div>
+  <div class="appbar-actions">
+    <button class="pill" id="infoBtn" type="button" aria-haspopup="dialog"><i class="dot"></i><span id="infoTxt"></span></button>
+    <button class="pill" id="reset" type="button">Reset</button>
+  </div>
 </header>
-<main>
-  <div class="side">
-    <section><h2>Skill priority</h2>
-      <p class="note">Type up to 3 skills, each with an optional target level (empty = max). The planner builds options that trade skills against each other and avoids going over the cap.</p>
-      <div class="row"><b>P1</b><input id="in0" list="dl0" placeholder="First priority skill" autocomplete="off"><input id="lv0" class="lvl" type="number" min="1" placeholder="max"><datalist id="dl0"></datalist></div><div class="st" id="st0"></div>
-      <div class="row"><b>P2</b><input id="in1" list="dl1" placeholder="Second priority skill" autocomplete="off"><input id="lv1" class="lvl" type="number" min="1" placeholder="max"><datalist id="dl1"></datalist></div><div class="st" id="st1"></div>
-      <div class="row"><b>P3</b><input id="in2" list="dl2" placeholder="Third priority skill" autocomplete="off"><input id="lv2" class="lvl" type="number" min="1" placeholder="max"><datalist id="dl2"></datalist></div><div class="st" id="st2"></div>
-      <div id="sdet"></div>
-    </section>
-    <section id="sugs"><h2 id="pickT">Still available</h2><div id="pick"></div></section>
-  </div>
-  <div>
-    <p class="note hint">Swipe sideways to compare builds. Tap a piece for details.</p>
-    <div class="opts" id="opts"></div>
-    <details class="man"><summary>Swap pieces manually</summary><div class="slots" id="slots"></div></details>
-    <section style="margin-top:16px"><h2 id="totT">Selected build totals</h2><div id="tot"></div></section>
-  </div>
+<main class="wrap">
+  <section class="side" aria-labelledby="hPrio">
+    <div class="card">
+      <div class="card-h"><h2 id="hPrio">Skill priority</h2><span class="hint">Up to 3 &middot; target level optional</span></div>
+      <div id="prio"></div>
+    </div>
+  </section>
+  <section class="res" aria-label="Builds">
+    <div class="card start" id="start" hidden>
+      <h2>Start with a skill</h2>
+      <p>Pick up to three priority skills. The planner shows complete builds that trade one skill against another without wasting levels.</p>
+      <button type="button" class="btn" data-act="pick" data-i="0">Choose first skill</button>
+    </div>
+    <div id="optsWrap" hidden>
+      <div class="sec-h"><h2>Build options</h2><span class="hint" id="optHint"></span></div>
+      <div class="opts" id="opts"></div>
+    </div>
+    <div class="detail">
+      <div class="card" id="build"></div>
+      <div class="card" id="tot"></div>
+    </div>
+  </section>
 </main>
-<div id="tip"></div>
+<div id="tip" hidden></div>
+<dialog id="sheet" aria-labelledby="sheetT"><div class="sheet"><div class="grab"></div><div class="sheet-h"><h2 id="sheetT"></h2><button id="sheetX" type="button" aria-label="Close">&times;</button></div><div class="sheet-b" id="sheetB"></div></div></dialog>
+<noscript><p style="padding:16px">This planner needs JavaScript.</p></noscript>
 <script>
 const DATA=/*DATA_START*/[{"n":"Lumu Hat","p":"Head","s":"Paolumu Set","r":"8-10","d":137,"k":[["Ammo Enhancement",2],["Windproof",1],["Flawless",1]],"ss":"Paolumu's Presence"},{"n":"Lumu Mail","p":"Chest","s":"Paolumu Set","r":"8-10","d":137,"k":[["Offensive Defense",3],["Blessing",1]],"ss":"Paolumu's Presence"},{"n":"Lumu Vambraces","p":"Arms","s":"Paolumu Set","r":"8-10","d":137,"k":[["Airborne",3],["Windproof",1]],"ss":"Paolumu's Presence"},{"n":"Lumu Coil","p":"Waist","s":"Paolumu Set","r":"8-10","d":137,"k":[["Health Recovery",2],["Blessing",1]],"ss":"Paolumu's Presence"},{"n":"Lumu Greaves","p":"Legs","s":"Paolumu Set","r":"8-10","d":137,"k":[["Flawless",1],["Windproof",1],["Offensive Defense",2]],"ss":"Paolumu's Presence"},{"n":"Radiant Jyura Helm","p":"Head","s":"Radiant Jyuratodus Set","r":"6-10","d":136,"k":[["Flinching-Free",2],["Water Resistance",1]],"ss":"Jyuratodus Flowmend"},{"n":"Radiant Jyura Mail","p":"Chest","s":"Radiant Jyuratodus Set","r":"6-10","d":136,"k":[["Piercing Strike",2],["Health Recovery",1],["Radiant Sense",1]],"ss":"Jyuratodus Flowmend"},{"n":"Radiant Jyura Vambraces","p":"Arms","s":"Radiant Jyuratodus Set","r":"6-10","d":136,"k":[["Water Damage Up",2],["Health Recovery",1],["Hunting Instinct",1]],"ss":"Jyuratodus Flowmend"},{"n":"Radiant Jyura Coil","p":"Waist","s":"Radiant Jyuratodus Set","r":"6-10","d":136,"k":[["Piercing Strike",1],["Hunting Instinct",1],["Water Resistance",1]],"ss":"Jyuratodus Flowmend"},{"n":"Radiant Jyura Greaves","p":"Legs","s":"Radiant Jyuratodus Set","r":"6-10","d":136,"k":[["Water Damage Up",1],["Radiant Sense",1],["Health Recovery",1]],"ss":"Jyuratodus Flowmend"},{"n":"Ruger Aidal Oath","p":"Head","s":"Ruger Aidal Set","r":"9","d":126,"k":[["Suppression Recovery",2],["Grace Under Pressure",1]],"ss":"Ruger Aidal's Intimidation"},{"n":"Ruger Aidal Guard","p":"Chest","s":"Ruger Aidal Set","r":"9","d":126,"k":[["Counter Boost",3],["Rejuvenation",1]],"ss":"Ruger Aidal's Intimidation"},{"n":"Ruger Aidal Verdict","p":"Arms","s":"Ruger Aidal Set","r":"9","d":126,"k":[["Stamina Conversion",2],["Rejuvenation",1],["Weakspot Follow-Up",1]],"ss":"Ruger Aidal's Intimidation"},{"n":"Ruger Aidal Devotion","p":"Waist","s":"Ruger Aidal Set","r":"9","d":126,"k":[["Stamina Conversion",2],["Suppression Recovery",1],["Weakspot Follow-Up",1]],"ss":"Ruger Aidal's Intimidation"},{"n":"Ruger Aidal Resolve","p":"Legs","s":"Ruger Aidal Set","r":"9","d":126,"k":[["Adversity",1],["Morph Boost",2],["Relentless Pursuit",1]],"ss":"Ruger Aidal's Intimidation"},{"n":"Baan Helm","p":"Head","s":"Baan Set","r":"7-9","d":123,"k":[["Charge Enhancement",1],["Fearless",1],["Bleeding Resistance",1]],"ss":"Radobaan's Bulwark"},{"n":"Baan Mail","p":"Chest","s":"Baan Set","r":"7-9","d":123,"k":[["Intimidation",1],["Fearless",1],["Bleeding Resistance",1]],"ss":"Radobaan's Bulwark"},{"n":"Baan Vambraces","p":"Arms","s":"Baan Set","r":"7-9","d":123,"k":[["Charge Enhancement",3]],"ss":"Radobaan's Bulwark"},{"n":"Baan Coil","p":"Waist","s":"Baan Set","r":"7-9","d":123,"k":[["Sleep Resistance",1],["Immovable Stance",2]],"ss":"Radobaan's Bulwark"},{"n":"Baan Greaves","p":"Legs","s":"Baan Set","r":"7-9","d":123,"k":[["Iron Skin",2],["Bleeding Resistance",1]],"ss":"Radobaan's Bulwark"},{"n":"Radiant Girros Mask","p":"Head","s":"Radiant Great Girros Set","r":"7-9","d":123,"k":[["Combo Enhancement",2],["Radiant Sense",1],["Paralysis Resistance",1]],"ss":"Great Girros's Command"},{"n":"Radiant Girros Mail","p":"Chest","s":"Radiant Great Girros Set","r":"7-9","d":123,"k":[["Thunder Damage Up",3],["Paralysis Resistance",1]],"ss":"Great Girros's Command"},{"n":"Radiant Girros Vambraces","p":"Arms","s":"Radiant Great Girros Set","r":"7-9","d":123,"k":[["Combo Enhancement",3],["Flinching-Free",1]],"ss":"Great Girros's Command"},{"n":"Radiant Girros Coil","p":"Waist","s":"Radiant Great Girros Set","r":"7-9","d":123,"k":[["Thunder Damage Up",2],["Fearless",1],["Health Recovery",1]],"ss":"Great Girros's Command"},{"n":"Radiant Girros Greaves","p":"Legs","s":"Radiant Great Girros Set","r":"7-9","d":123,"k":[["Health Recovery",2],["Flinching-Free",1]],"ss":"Great Girros's Command"},{"n":"Diablos Helm","p":"Head","s":"Diablos Set","r":"7-9","d":123,"k":[["Tremor Resistance",2],["Defense Up",1]],"ss":"Diablos's Footing"},{"n":"Diablos Mail","p":"Chest","s":"Diablos Set","r":"7-9","d":123,"k":[["Dragon Damage Up",2],["Defense Up",1]],"ss":"Diablos's Footing"},{"n":"Diablos Vambraces","p":"Arms","s":"Diablos Set","r":"7-9","d":123,"k":[["Bento Lover",1],["Weakspot Follow-Up",1],["Guard Technique",1]],"ss":"Diablos's Footing"},{"n":"Diablos Coil","p":"Waist","s":"Diablos Set","r":"7-9","d":123,"k":[["Pierce",1],["Guard Technique",1],["Weakspot Follow-Up",1]],"ss":"Diablos's Footing"},{"n":"Diablos Greaves","p":"Legs","s":"Diablos Set","r":"7-9","d":123,"k":[["Bento Lover",2],["Defense Up",1]],"ss":"Diablos's Footing"},{"n":"Radiant Kadachi Helm","p":"Head","s":"Radiant Kadachi Set","r":"7-9","d":123,"k":[["Counter Boost",1],["Battle Spirit",1],["Thunder Resistance",1]],"ss":"Tobi-Kadachi Surge"},{"n":"Radiant Kadachi Mail","p":"Chest","s":"Radiant Kadachi Set","r":"7-9","d":123,"k":[["Deterrence",2],["Adversity",1]],"ss":"Tobi-Kadachi Surge"},{"n":"Radiant Kadachi Vambraces","p":"Arms","s":"Radiant Kadachi Set","r":"7-9","d":123,"k":[["Bow Skill Boost",1],["Thunder Resistance",1],["Unleashed",1]],"ss":"Tobi-Kadachi Surge"},{"n":"Radiant Kadachi Coil","p":"Waist","s":"Radiant Kadachi Set","r":"7-9","d":123,"k":[["Thunder Resistance",1],["Bow Skill Boost",2]],"ss":"Tobi-Kadachi Surge"},{"n":"Radiant Kadachi Greaves","p":"Legs","s":"Radiant Kadachi Set","r":"7-9","d":123,"k":[["Counter Boost",2],["Deterrence",1]],"ss":"Tobi-Kadachi Surge"},{"n":"Odogaron Helm","p":"Head","s":"Odogaron Set","r":"7-9","d":123,"k":[["Stamina Conversion",1],["Hunting Instinct",1],["Recovery Booster",1]],"ss":"Odogaron's Tenacity"},{"n":"Odogaron Mail","p":"Chest","s":"Odogaron Set","r":"7-9","d":123,"k":[["Recovery Booster",1],["Demonic Strength",2]],"ss":"Odogaron's Tenacity"},{"n":"Odogaron Vambraces","p":"Arms","s":"Odogaron Set","r":"7-9","d":123,"k":[["Bleeding Resistance",2],["Rejuvenation",1]],"ss":"Odogaron's Tenacity"},{"n":"Odogaron Coil","p":"Waist","s":"Odogaron Set","r":"7-9","d":123,"k":[["Charge Up",2],["Rejuvenation",1]],"ss":"Odogaron's Tenacity"},{"n":"Odogaron Greaves","p":"Legs","s":"Odogaron Set","r":"7-9","d":123,"k":[["Charge Up",1],["Weakspot Exploit",1],["Recovery Booster",1]],"ss":"Odogaron's Tenacity"},{"n":"Tzitzi Headgear","p":"Head","s":"Tzitzi-Ya-Ku Set","r":"8-9","d":123,"k":[["Piercing Strike",2],["Relentless Pursuit",1],["Blessing",1]],"ss":"Tzitzi-Ya-Ku's Pursuit"},{"n":"Tzitzi Mail","p":"Chest","s":"Tzitzi-Ya-Ku Set","r":"8-9","d":123,"k":[["Water Damage Up",3],["Blessing",1]],"ss":"Tzitzi-Ya-Ku's Pursuit"},{"n":"Tzitzi Vambraces","p":"Arms","s":"Tzitzi-Ya-Ku Set","r":"8-9","d":123,"k":[["Piercing Strike",3],["Sleep Resistance",1]],"ss":"Tzitzi-Ya-Ku's Pursuit"},{"n":"Tzitzi Coil","p":"Waist","s":"Tzitzi-Ya-Ku Set","r":"8-9","d":123,"k":[["Water Damage Up",2],["Relentless Pursuit",1],["Stun Resistance",1]],"ss":"Tzitzi-Ya-Ku's Pursuit"},{"n":"Tzitzi Greaves","p":"Legs","s":"Tzitzi-Ya-Ku Set","r":"8-9","d":123,"k":[["Capturing Expert",1],["Stun Resistance",1],["Blessing",1]],"ss":"Tzitzi-Ya-Ku's Pursuit"},{"n":"Legiana Helm","p":"Head","s":"Legiana Set","r":"8-9","d":123,"k":[["Ice Resistance",2],["Blessing",1]],"ss":"Legiana Dance"},{"n":"Legiana Mail","p":"Chest","s":"Legiana Set","r":"8-9","d":123,"k":[["Flash Draw",2],["Weakspot Exploit",1]],"ss":"Legiana Dance"},{"n":"Legiana Vambraces","p":"Arms","s":"Legiana Set","r":"8-9","d":123,"k":[["Ice Damage Up",1],["Weakspot Exploit",1],["Blessing",1]],"ss":"Legiana Dance"},{"n":"Legiana Coil","p":"Waist","s":"Legiana Set","r":"8-9","d":123,"k":[["Blessing",2],["Ice Damage Up",1]],"ss":"Legiana Dance"},{"n":"Legiana Greaves","p":"Legs","s":"Legiana Set","r":"8-9","d":123,"k":[["Ammo Enhancement",2],["Suppression Recovery",1]],"ss":"Legiana Dance"},{"n":"Rath Heart Helm","p":"Head","s":"Pink Rathian Set","r":"9","d":123,"k":[["Fire Damage Up",2],["Hunting Instinct",1],["Health Boost",1]],"ss":"Pink Rathian's Acuity"},{"n":"Rath Heart Mail","p":"Chest","s":"Pink Rathian Set","r":"9","d":123,"k":[["Poison Resistance",2],["Recovery Booster",1]],"ss":"Pink Rathian's Acuity"},{"n":"Rath Heart Braces","p":"Arms","s":"Pink Rathian Set","r":"9","d":123,"k":[["Capacity Boost",2],["Hunting Instinct",1],["Recovery Booster",1]],"ss":"Pink Rathian's Acuity"},{"n":"Rath Heart Coil","p":"Waist","s":"Pink Rathian Set","r":"9","d":123,"k":[["Capacity Boost",2],["Health Boost",1],["Insight",1]],"ss":"Pink Rathian's Acuity"},{"n":"Rath Heart Greaves","p":"Legs","s":"Pink Rathian Set","r":"9","d":123,"k":[["Instinct",1],["Spirit Bind Blade",2],["Recovery Booster",1]],"ss":"Pink Rathian's Acuity"},{"n":"Radiant Lumu Hat","p":"Head","s":"Radiant Paolumu Set","r":"9","d":123,"k":[["Item Master",1],["Blessing",1],["Charged Power Shot",1]],"ss":"Paolumu's Airflow"},{"n":"Radiant Lumu Mail","p":"Chest","s":"Radiant Paolumu Set","r":"9","d":123,"k":[["Grace Under Pressure",2],["Item Master",1]],"ss":"Paolumu's Airflow"},{"n":"Radiant Lumu Vambraces","p":"Arms","s":"Radiant Paolumu Set","r":"9","d":123,"k":[["Ballistics",1],["Gathering Master",1],["Charged Power Shot",2]],"ss":"Paolumu's Airflow"},{"n":"Radiant Lumu Coil","p":"Waist","s":"Radiant Paolumu Set","r":"9","d":123,"k":[["Airborne",3],["Item Master",1]],"ss":"Paolumu's Airflow"},{"n":"Radiant Lumu Greaves","p":"Legs","s":"Radiant Paolumu Set","r":"9","d":123,"k":[["Airborne",2],["Radiant Sense",1],["Blessing",1]],"ss":"Paolumu's Airflow"},{"n":"Alloy Helm","p":"Head","s":"Alloy Set","r":"3-9","d":122,"k":[["Water Resistance",1],["Offensive Defense",1],["Breaker",1]],"ss":"Alloy Barrier"},{"n":"Alloy Mail","p":"Chest","s":"Alloy Set","r":"3-9","d":122,"k":[["Immovable Stance",1],["Breaker",1],["Poison Resistance",1]],"ss":"Alloy Barrier"},{"n":"Alloy Vambraces","p":"Arms","s":"Alloy Set","r":"3-9","d":122,"k":[["Windproof",1],["Defense Up",1]],"ss":"Alloy Barrier"},{"n":"Alloy Coil","p":"Waist","s":"Alloy Set","r":"3-9","d":122,"k":[["Windproof",1],["Immovable Stance",1],["Water Resistance",1]],"ss":"Alloy Barrier"},{"n":"Alloy Greaves","p":"Legs","s":"Alloy Set","r":"3-9","d":122,"k":[["Offensive Defense",1],["Defense Up",1],["Poison Resistance",1]],"ss":"Alloy Barrier"},{"n":"Anja Helm","p":"Head","s":"Anjanath Set","r":"3-9","d":122,"k":[["Weakspot Follow-Up",1],["Wrecker",1],["Quick-Bite",1]],"ss":"Anjanath Ember"},{"n":"Anja Mail","p":"Chest","s":"Anjanath Set","r":"3-9","d":122,"k":[["Fire Resistance",1],["Charge Enhancement",1],["Weakspot Follow-Up",1]],"ss":"Anjanath Ember"},{"n":"Anja Vambraces","p":"Arms","s":"Anjanath Set","r":"3-9","d":122,"k":[["Weakspot Follow-Up",1],["Health Cycle",1],["Quick-Bite",1]],"ss":"Anjanath Ember"},{"n":"Anja Coil","p":"Waist","s":"Anjanath Set","r":"3-9","d":122,"k":[["Fire Damage Up",2],["Health Cycle",1]],"ss":"Anjanath Ember"},{"n":"Anja Greaves","p":"Legs","s":"Anjanath Set","r":"3-9","d":122,"k":[["Fire Damage Up",1],["Health Cycle",1],["Adversity",1]],"ss":"Anjanath Ember"},{"n":"Radiant Rathian Helm","p":"Head","s":"Radiant Rathian Set","r":"3-9","d":122,"k":[["Recovery Booster",1],["Flash Draw",2]],"ss":"Rathian's Instinct"},{"n":"Radiant Rathian Mail","p":"Chest","s":"Radiant Rathian Set","r":"3-9","d":122,"k":[["Radiant Sense",1],["Spirit Bind Blade",1],["Recovery Booster",1]],"ss":"Rathian's Instinct"},{"n":"Radiant Rathian Vambraces","p":"Arms","s":"Radiant Rathian Set","r":"3-9","d":122,"k":[["Airborne",1],["Health Boost",1],["Poison Resistance",1]],"ss":"Rathian's Instinct"},{"n":"Radiant Rathian Coil","p":"Waist","s":"Radiant Rathian Set","r":"3-9","d":122,"k":[["Radiant Sense",1],["Health Boost",1],["Botanical Expert",1]],"ss":"Rathian's Instinct"},{"n":"Radiant Rathian Greaves","p":"Legs","s":"Radiant Rathian Set","r":"3-9","d":122,"k":[["Flash Draw",1],["Hunting Instinct",1],["Botanical Expert",1]],"ss":"Rathian's Instinct"},{"n":"Hornetaur Helm","p":"Head","s":"Hornetaur Set","r":"4-9","d":122,"k":[["Dragon Resistance",1],["Carving Pro",1]],"ss":"Hornetaur Might"},{"n":"Hornetaur Mail","p":"Chest","s":"Hornetaur Set","r":"4-9","d":122,"k":[["Bento Lover",1],["Weakspot Follow-Up",1],["Thrifty Meal",1]],"ss":"Hornetaur Might"},{"n":"Hornetaur Vambraces","p":"Arms","s":"Hornetaur Set","r":"4-9","d":122,"k":[["Critical Element",1],["Dragon Damage Up",2]],"ss":"Hornetaur Might"},{"n":"Hornetaur Coil","p":"Waist","s":"Hornetaur Set","r":"4-9","d":122,"k":[["Dragon Damage Up",1],["Weakspot Follow-Up",1],["Thrifty Meal",1]],"ss":"Hornetaur Might"},{"n":"Hornetaur Greaves","p":"Legs","s":"Hornetaur Set","r":"4-9","d":122,"k":[["Dragon Resistance",1],["Health Boost",1]],"ss":"Hornetaur Might"},{"n":"Radiant Jagras Helm","p":"Head","s":"Radiant Great Jagras Set","r":"4-9","d":122,"k":[["Charge Up",1],["Breaker",1],["Insight",1]],"ss":"Great Jagras's Roll"},{"n":"Radiant Jagras Mail","p":"Chest","s":"Radiant Great Jagras Set","r":"4-9","d":122,"k":[["Charge Up",2],["Stun Resistance",1],["Unleashed",1]],"ss":"Great Jagras's Roll"},{"n":"Radiant Jagras Vambraces","p":"Arms","s":"Radiant Great Jagras Set","r":"4-9","d":122,"k":[["Insight",2],["Bento Lover",1]],"ss":"Great Jagras's Roll"},{"n":"Radiant Jagras Coil","p":"Waist","s":"Radiant Great Jagras Set","r":"4-9","d":122,"k":[["Bento Lover",2],["Thrifty Meal",1],["Unleashed",1]],"ss":"Great Jagras's Roll"},{"n":"Radiant Jagras Greaves","p":"Legs","s":"Radiant Great Jagras Set","r":"4-9","d":122,"k":[["Breaker",1],["Stun Resistance",1],["Thrifty Meal",1]],"ss":"Great Jagras's Roll"},{"n":"Radiant Pukei Hood","p":"Head","s":"Radiant Pukei-Pukei Set","r":"4-9","d":122,"k":[["Charged Power Shot",2],["Improviser",1],["Flawless",1]],"ss":"Pukei-Pukei Territory"},{"n":"Radiant Pukei Mail","p":"Chest","s":"Radiant Pukei-Pukei Set","r":"4-9","d":122,"k":[["Bow Skill Boost",2],["Suppression Recovery",1],["Hunting Instinct",1]],"ss":"Pukei-Pukei Territory"},{"n":"Radiant Pukei Vambraces","p":"Arms","s":"Radiant Pukei-Pukei Set","r":"4-9","d":122,"k":[["Hunting Instinct",1],["Item Master",1],["Suppression Recovery",1]],"ss":"Pukei-Pukei Territory"},{"n":"Radiant Pukei Coil","p":"Waist","s":"Radiant Pukei-Pukei Set","r":"4-9","d":122,"k":[["Hunting Instinct",1],["Stamina Conversion",1],["Item Master",1]],"ss":"Pukei-Pukei Territory"},{"n":"Radiant Pukei Greaves","p":"Legs","s":"Radiant Pukei-Pukei Set","r":"4-9","d":122,"k":[["Bow Skill Boost",2],["Improviser",1],["Flawless",1]],"ss":"Pukei-Pukei Territory"},{"n":"Butterfly Vertex","p":"Head","s":"Butterfly Set","r":"4-9","d":122,"k":[["Airborne",1],["Insight",1],["Improviser",1]],"ss":"Butterfly Bond"},{"n":"Butterfly Thorax","p":"Chest","s":"Butterfly Set","r":"4-9","d":122,"k":[["Counter Boost",1],["Insight",1],["Improviser",1]],"ss":"Butterfly Bond"},{"n":"Butterfly Brachia","p":"Arms","s":"Butterfly Set","r":"4-9","d":122,"k":[["Sleep Resistance",1],["Counter Boost",1],["Botanical Expert",1]],"ss":"Butterfly Bond"},{"n":"Butterfly Elytra","p":"Waist","s":"Butterfly Set","r":"4-9","d":122,"k":[["Sleep Resistance",1],["Honey Harvester",1]],"ss":"Butterfly Bond"},{"n":"Butterfly Crura","p":"Legs","s":"Butterfly Set","r":"4-9","d":122,"k":[["Airborne",1],["Ballistics",1],["Botanical Expert",1]],"ss":"Butterfly Bond"},{"n":"King Beetle Vertex","p":"Head","s":"King Beetle Set","r":"4-9","d":122,"k":[["Stamina Conversion",1],["Honey Harvester",1],["Sleep Resistance",1]],"ss":"Monocerus Divinity"},{"n":"King Beetle Thorax","p":"Chest","s":"King Beetle Set","r":"4-9","d":122,"k":[["Blessing",1],["Capacity Boost",2]],"ss":"Monocerus Divinity"},{"n":"King Beetle Brachia","p":"Arms","s":"King Beetle Set","r":"4-9","d":122,"k":[["Flawless",1],["Ammo Enhancement",1],["Blessing",1]],"ss":"Monocerus Divinity"},{"n":"King Beetle Elytra","p":"Waist","s":"King Beetle Set","r":"4-9","d":122,"k":[["Geo Expert",1],["Sleep Resistance",1]],"ss":"Monocerus Divinity"},{"n":"King Beetle Crura","p":"Legs","s":"King Beetle Set","r":"4-9","d":122,"k":[["Capacity Boost",1],["Geo Expert",1],["Blessing",1]],"ss":"Monocerus Divinity"},{"n":"Kadachi Helm","p":"Head","s":"Kadachi Set","r":"5-9","d":122,"k":[["Deterrence",1],["Thunder Damage Up",3]],"ss":"Tobi-Kadachi Thunderplate"},{"n":"Kadachi Mail","p":"Chest","s":"Kadachi Set","r":"5-9","d":122,"k":[["Thunder Resistance",1],["Stamina Conversion",3]],"ss":"Tobi-Kadachi Thunderplate"},{"n":"Kadachi Vambraces","p":"Arms","s":"Kadachi Set","r":"5-9","d":122,"k":[["Thunder Resistance",1],["Blessing",2]],"ss":"Tobi-Kadachi Thunderplate"},{"n":"Kadachi Coil","p":"Waist","s":"Kadachi Set","r":"5-9","d":122,"k":[["Thunder Damage Up",1],["Critical Element",1],["Deterrence",1]],"ss":"Tobi-Kadachi Thunderplate"},{"n":"Kadachi Greaves","p":"Legs","s":"Kadachi Set","r":"5-9","d":122,"k":[["Stamina Conversion",1],["Unleashed",1],["Master Climber",1]],"ss":"Tobi-Kadachi Thunderplate"},{"n":"Radiant Anja Helm","p":"Head","s":"Radiant Anjanath Set","r":"5-9","d":122,"k":[["Flash Draw",1],["Quick-Bite",1],["Adversity",1]],"ss":"Anjanath's Wrath"},{"n":"Radiant Anja Mail","p":"Chest","s":"Radiant Anjanath Set","r":"5-9","d":122,"k":[["Fire Resistance",1],["Health Cycle",2]],"ss":"Anjanath's Wrath"},{"n":"Radiant Anja Vambraces","p":"Arms","s":"Radiant Anjanath Set","r":"5-9","d":122,"k":[["Wrecker",2],["Fire Resistance",1]],"ss":"Anjanath's Wrath"},{"n":"Radiant Anja Coil","p":"Waist","s":"Radiant Anjanath Set","r":"5-9","d":122,"k":[["Charge Enhancement",1],["Breaker",1],["Quick-Bite",1]],"ss":"Anjanath's Wrath"},{"n":"Radiant Anja Greaves","p":"Legs","s":"Radiant Anjanath Set","r":"5-9","d":122,"k":[["Charge Enhancement",2],["Fire Resistance",1]],"ss":"Anjanath's Wrath"},{"n":"Ingot Helm","p":"Head","s":"Ingot Set","r":"5-9","d":122,"k":[["Intimidation",2],["Windproof",1],["Fearless",1]],"ss":"Ingot Blast Shield"},{"n":"Ingot Mail","p":"Chest","s":"Ingot Set","r":"5-9","d":122,"k":[["Blast Resistance",1],["Defense Up",2]],"ss":"Ingot Blast Shield"},{"n":"Ingot Vambraces","p":"Arms","s":"Ingot Set","r":"5-9","d":122,"k":[["Offensive Defense",1],["Grace Under Pressure",1],["Blast Resistance",1]],"ss":"Ingot Blast Shield"},{"n":"Ingot Coil","p":"Waist","s":"Ingot Set","r":"5-9","d":122,"k":[["Offensive Defense",2],["Windproof",1],["Fearless",1]],"ss":"Ingot Blast Shield"},{"n":"Ingot Greaves","p":"Legs","s":"Ingot Set","r":"5-9","d":122,"k":[["Defense Up",1],["Thunder Damage Up",2],["Fearless",1]],"ss":"Ingot Blast Shield"},{"n":"Radiant Kulu Headpiece","p":"Head","s":"Radiant Kulu-Ya-Ku Set","r":"5-9","d":122,"k":[["Demonic Strength",2],["Item Master",1],["Weakspot Exploit",1]],"ss":"Kulu-Ya-Ku's Skill"},{"n":"Radiant Kulu Mail","p":"Chest","s":"Radiant Kulu-Ya-Ku Set","r":"5-9","d":122,"k":[["Combo Enhancement",1],["Insight",1],["Grace Under Pressure",1]],"ss":"Kulu-Ya-Ku's Skill"},{"n":"Radiant Kulu Vambraces","p":"Arms","s":"Radiant Kulu-Ya-Ku Set","r":"5-9","d":122,"k":[["Item Master",2],["Fire Resistance",1]],"ss":"Kulu-Ya-Ku's Skill"},{"n":"Radiant Kulu Coil","p":"Waist","s":"Radiant Kulu-Ya-Ku Set","r":"5-9","d":122,"k":[["Counter Boost",2],["Grace Under Pressure",1],["Insight",1]],"ss":"Kulu-Ya-Ku's Skill"},{"n":"Radiant Kulu Greaves","p":"Legs","s":"Radiant Kulu-Ya-Ku Set","r":"5-9","d":122,"k":[["Combo Enhancement",2],["Fire Resistance",1],["Weakspot Exploit",1]],"ss":"Kulu-Ya-Ku's Skill"},{"n":"Radiant Barroth Helm","p":"Head","s":"Radiant Barroth Set","r":"5-9","d":122,"k":[["Capacity Boost",2],["Guard Technique",1]],"ss":"Barroth's Resolve"},{"n":"Radiant Barroth Mail","p":"Chest","s":"Radiant Barroth Set","r":"5-9","d":122,"k":[["Guard Technique",2],["Stun Resistance",1]],"ss":"Barroth's Resolve"},{"n":"Radiant Barroth Vambraces","p":"Arms","s":"Radiant Barroth Set","r":"5-9","d":122,"k":[["Immovable Stance",2],["Stun Resistance",1]],"ss":"Barroth's Resolve"},{"n":"Radiant Barroth Coil","p":"Waist","s":"Radiant Barroth Set","r":"5-9","d":122,"k":[["Capacity Boost",1],["Battle Spirit",1],["Defense Up",1]],"ss":"Barroth's Resolve"},{"n":"Radiant Barroth Greaves","p":"Legs","s":"Radiant Barroth Set","r":"5-9","d":122,"k":[["Pierce",2],["Guard Technique",1]],"ss":"Barroth's Resolve"},{"n":"Rathian Helm","p":"Head","s":"Rathian Set","r":"6-9","d":122,"k":[["Spirit Bind Blade",2],["Hunting Instinct",1]],"ss":"Rathian Vigor"},{"n":"Rathian Mail","p":"Chest","s":"Rathian Set","r":"6-9","d":122,"k":[["Airborne",2],["Poison Resistance",1]],"ss":"Rathian Vigor"},{"n":"Rathian Vambraces","p":"Arms","s":"Rathian Set","r":"6-9","d":122,"k":[["Flash Draw",2],["Botanical Expert",1]],"ss":"Rathian Vigor"},{"n":"Rathian Coil","p":"Waist","s":"Rathian Set","r":"6-9","d":122,"k":[["Flawless",1],["Roar Resistance",1],["Spirit Bind Blade",1]],"ss":"Rathian Vigor"},{"n":"Rathian Greaves","p":"Legs","s":"Rathian Set","r":"6-9","d":122,"k":[["Health Boost",2],["Roar Resistance",1]],"ss":"Rathian Vigor"},{"n":"Rathalos Helm","p":"Head","s":"Rathalos Set","r":"6-9","d":122,"k":[["Fire Damage Up",1],["Breaker",1],["Deterrence",1]],"ss":"Rathalos's Weakness"},{"n":"Rathalos Mail","p":"Chest","s":"Rathalos Set","r":"6-9","d":122,"k":[["Fire Damage Up",2],["Health Cycle",1]],"ss":"Rathalos's Weakness"},{"n":"Rathalos Vambraces","p":"Arms","s":"Rathalos Set","r":"6-9","d":122,"k":[["Deterrence",2],["Fire Resistance",1]],"ss":"Rathalos's Weakness"},{"n":"Rathalos Coil","p":"Waist","s":"Rathalos Set","r":"6-9","d":122,"k":[["Wrecker",1],["Weakspot Exploit",1],["Fire Resistance",1]],"ss":"Rathalos's Weakness"},{"n":"Rathalos Greaves","p":"Legs","s":"Rathalos Set","r":"6-9","d":122,"k":[["Fire Resistance",1],["Wrecker",2]],"ss":"Rathalos's Weakness"},{"n":"Jagras Helm","p":"Head","s":"Great Jagras Set","r":"1-9","d":121,"k":[["Stun Resistance",1],["Bento Lover",2],["Fearless",1]],"ss":"Great Jagras Resistance"},{"n":"Jagras Mail","p":"Chest","s":"Great Jagras Set","r":"1-9","d":121,"k":[["Fearless",1],["Stun Resistance",1],["Deterrence",1]],"ss":"Great Jagras Resistance"},{"n":"Jagras Vambraces","p":"Arms","s":"Great Jagras Set","r":"1-9","d":121,"k":[["Spirit Bind Blade",2],["Deterrence",1],["Relentless Pursuit",1]],"ss":"Great Jagras Resistance"},{"n":"Jagras Coil","p":"Waist","s":"Great Jagras Set","r":"1-9","d":121,"k":[["Flash Draw",1],["Thrifty Meal",1]],"ss":"Great Jagras Resistance"},{"n":"Jagras Greaves","p":"Legs","s":"Great Jagras Set","r":"1-9","d":121,"k":[["Bento Lover",1],["Deterrence",1],["Adversity",1]],"ss":"Great Jagras Resistance"},{"n":"Kulu Headpiece","p":"Head","s":"Kulu-Ya-Ku Set","r":"1-9","d":121,"k":[["Insight",2],["Carve Master",1]],"ss":"Kulu-Ya-Ku Flash Attack"},{"n":"Kulu Mail","p":"Chest","s":"Kulu-Ya-Ku Set","r":"1-9","d":121,"k":[["Weakspot Exploit",1],["Fire Resistance",1],["Thrifty Meal",1]],"ss":"Kulu-Ya-Ku Flash Attack"},{"n":"Kulu Vambraces","p":"Arms","s":"Kulu-Ya-Ku Set","r":"1-9","d":121,"k":[["Item Master",1],["Insight",1],["Recovery Booster",1]],"ss":"Kulu-Ya-Ku Flash Attack"},{"n":"Kulu Coil","p":"Waist","s":"Kulu-Ya-Ku Set","r":"1-9","d":121,"k":[["Fire Resistance",1],["Combo Enhancement",2],["Weakspot Exploit",1]],"ss":"Kulu-Ya-Ku Flash Attack"},{"n":"Kulu Greaves","p":"Legs","s":"Kulu-Ya-Ku Set","r":"1-9","d":121,"k":[["Demonic Strength",2],["Item Master",1],["Weakspot Exploit",1]],"ss":"Kulu-Ya-Ku Flash Attack"},{"n":"Pukei Hood","p":"Head","s":"Pukei-Pukei Set","r":"1-9","d":121,"k":[["Ballistics",1],["Bow Skill Boost",2],["Botanical Expert",1]],"ss":"Pukei-Pukei Tailwhip"},{"n":"Pukei Mail","p":"Chest","s":"Pukei-Pukei Set","r":"1-9","d":121,"k":[["Charged Power Shot",1],["Improviser",1],["Botanical Expert",1]],"ss":"Pukei-Pukei Tailwhip"},{"n":"Pukei Vambraces","p":"Arms","s":"Pukei-Pukei Set","r":"1-9","d":121,"k":[["Battle Spirit",1],["Poison Resistance",1],["Improviser",1]],"ss":"Pukei-Pukei Tailwhip"},{"n":"Pukei Coil","p":"Waist","s":"Pukei-Pukei Set","r":"1-9","d":121,"k":[["Poison Resistance",1],["Charged Power Shot",3]],"ss":"Pukei-Pukei Tailwhip"},{"n":"Pukei Greaves","p":"Legs","s":"Pukei-Pukei Set","r":"1-9","d":121,"k":[["Battle Spirit",1],["Botanical Expert",1],["Improviser",1]],"ss":"Pukei-Pukei Tailwhip"},{"n":"Chainmail Headgear","p":"Head","s":"Chainmail Set","r":"1-9","d":121,"k":[["Ice Damage Up",1],["Water Resistance",1],["Health Recovery",1]],"ss":"Coldsteel Craft"},{"n":"Chainmail Vest","p":"Chest","s":"Chainmail Set","r":"1-9","d":121,"k":[["Water Resistance",1],["Guard Technique",1]],"ss":"Coldsteel Craft"},{"n":"Chainmail Gloves","p":"Arms","s":"Chainmail Set","r":"1-9","d":121,"k":[["Charge Enhancement",1],["Water Resistance",1],["Guard Technique",1]],"ss":"Coldsteel Craft"},{"n":"Chainmail Belt","p":"Waist","s":"Chainmail Set","r":"1-9","d":121,"k":[["Unleashed",1],["Ice Damage Up",2],["Health Recovery",1]],"ss":"Coldsteel Craft"},{"n":"Chainmail Trousers","p":"Legs","s":"Chainmail Set","r":"1-9","d":121,"k":[["Intimidation",2],["Health Recovery",1],["Unleashed",1]],"ss":"Coldsteel Craft"},{"n":"Leather Headgear","p":"Head","s":"Leather Set","r":"1-9","d":121,"k":[["Item Master",1],["Recovery Booster",1]],"ss":"Compound Fiber"},{"n":"Leather Vest","p":"Chest","s":"Leather Set","r":"1-9","d":121,"k":[["Critical Element",2],["Item Master",1]],"ss":"Compound Fiber"},{"n":"Leather Gloves","p":"Arms","s":"Leather Set","r":"1-9","d":121,"k":[["Piercing Strike",1],["Fire Resistance",1],["Iron Skin",1]],"ss":"Compound Fiber"},{"n":"Leather Belt","p":"Waist","s":"Leather Set","r":"1-9","d":121,"k":[["Fire Resistance",1],["Master Climber",1]],"ss":"Compound Fiber"},{"n":"Leather Pants","p":"Legs","s":"Leather Set","r":"1-9","d":121,"k":[["Iron Skin",1],["Piercing Strike",2],["Ballistics",1]],"ss":"Compound Fiber"},{"n":"Barroth Helm","p":"Head","s":"Barroth Set","r":"2-9","d":121,"k":[["Battle Spirit",1],["Immovable Stance",2],["Stun Resistance",1]],"ss":"Barroth Mudguard"},{"n":"Barroth Mail","p":"Chest","s":"Barroth Set","r":"2-9","d":121,"k":[["Battle Spirit",1],["Pierce",2],["Defense Up",1]],"ss":"Barroth Mudguard"},{"n":"Barroth Vambraces","p":"Arms","s":"Barroth Set","r":"2-9","d":121,"k":[["Stun Resistance",1],["Guard Technique",1]],"ss":"Barroth Mudguard"},{"n":"Barroth Coil","p":"Waist","s":"Barroth Set","r":"2-9","d":121,"k":[["Immovable Stance",1],["Defense Up",2]],"ss":"Barroth Mudguard"},{"n":"Barroth Greaves","p":"Legs","s":"Barroth Set","r":"2-9","d":121,"k":[["Battle Spirit",1],["Guard Technique",1],["Defense Up",1]],"ss":"Barroth Mudguard"},{"n":"Jyura Helm","p":"Head","s":"Jyuratodus Set","r":"2-9","d":121,"k":[["Unleashed",1],["Water Damage Up",2],["Health Recovery",1]],"ss":"Jyuratodus Aquaguard"},{"n":"Jyura Mail","p":"Chest","s":"Jyuratodus Set","r":"2-9","d":121,"k":[["Water Damage Up",1],["Ice Resistance",1],["Health Boost",1]],"ss":"Jyuratodus Aquaguard"},{"n":"Jyura Vambraces","p":"Arms","s":"Jyuratodus Set","r":"2-9","d":121,"k":[["Unleashed",1],["Charge Up",2],["Ice Resistance",1]],"ss":"Jyuratodus Aquaguard"},{"n":"Jyura Coil","p":"Waist","s":"Jyuratodus Set","r":"2-9","d":121,"k":[["Charge Up",1],["Ice Resistance",1],["Health Recovery",1]],"ss":"Jyuratodus Aquaguard"},{"n":"Jyura Greaves","p":"Legs","s":"Jyuratodus Set","r":"2-9","d":121,"k":[["Unleashed",1],["Suppression Recovery",1],["Health Recovery",1]],"ss":"Jyuratodus Aquaguard"},{"n":"Girros Mask","p":"Head","s":"Great Girros Set","r":"2-9","d":121,"k":[["Critical Element",2],["Paralysis Resistance",1]],"ss":"Great Girros Ambush"},{"n":"Girros Mail","p":"Chest","s":"Great Girros Set","r":"2-9","d":121,"k":[["Thunder Damage Up",1],["Improviser",1],["Health Boost",1]],"ss":"Great Girros Ambush"},{"n":"Girros Vambraces","p":"Arms","s":"Great Girros Set","r":"2-9","d":121,"k":[["Thunder Damage Up",2],["Deterrence",1],["Unleashed",1]],"ss":"Great Girros Ambush"},{"n":"Girros Coil","p":"Waist","s":"Great Girros Set","r":"2-9","d":121,"k":[["Relentless Pursuit",2],["Buddy Boost",1]],"ss":"Great Girros Ambush"},{"n":"Girros Greaves","p":"Legs","s":"Great Girros Set","r":"2-9","d":121,"k":[["Critical Element",1],["Paralysis Resistance",1],["Health Boost",1]],"ss":"Great Girros Ambush"},{"n":"Bone Helm","p":"Head","s":"Bone Set","r":"2-9","d":121,"k":[["Morph Boost",2],["Health Boost",1],["Breaker",1]],"ss":"Sepulcros Divinity"},{"n":"Bone Mail","p":"Chest","s":"Bone Set","r":"2-9","d":121,"k":[["Dragon Damage Up",1],["Health Recovery",1],["Health Boost",1]],"ss":"Sepulcros Divinity"},{"n":"Bone Vambraces","p":"Arms","s":"Bone Set","r":"2-9","d":121,"k":[["Breaker",1],["Specimen Expert",1],["Health Recovery",1]],"ss":"Sepulcros Divinity"},{"n":"Bone Coil","p":"Waist","s":"Bone Set","r":"2-9","d":121,"k":[["Specimen Expert",1],["Health Boost",1]],"ss":"Sepulcros Divinity"},{"n":"Bone Greaves","p":"Legs","s":"Bone Set","r":"2-9","d":121,"k":[["Stun Resistance",1],["Dragon Damage Up",2],["Breaker",1]],"ss":"Sepulcros Divinity"},{"n":"Vespoid Helm","p":"Head","s":"Vespoid Set","r":"2-9","d":121,"k":[["Paralysis Resistance",1],["Windproof",1]],"ss":"Insulation of the Summit"},{"n":"Vespoid Mail","p":"Chest","s":"Vespoid Set","r":"2-9","d":121,"k":[["Critical Element",1],["Health Boost",1]],"ss":"Insulation of the Summit"},{"n":"Vespoid Vambraces","p":"Arms","s":"Vespoid Set","r":"2-9","d":121,"k":[["Paralysis Resistance",1],["Counter Boost",2],["Insight",1]],"ss":"Insulation of the Summit"},{"n":"Vespoid Coil","p":"Waist","s":"Vespoid Set","r":"2-9","d":121,"k":[["Critical Element",1],["Paralysis Resistance",1],["Honey Harvester",1]],"ss":"Insulation of the Summit"},{"n":"Vespoid Greaves","p":"Legs","s":"Vespoid Set","r":"2-9","d":121,"k":[["Counter Boost",1],["Health Boost",1],["Windproof",1]],"ss":"Insulation of the Summit"},{"n":"Hunter's Headgear","p":"Head","s":"Hunter Set","r":"2-9","d":121,"k":[["Insight",1],["Geo Expert",1],["Health Recovery",1]],"ss":"Wilds Mastery"},{"n":"Hunter's Mail","p":"Chest","s":"Hunter Set","r":"2-9","d":121,"k":[["Improviser",1],["Ammo Enhancement",2],["Weakspot Exploit",1]],"ss":"Wilds Mastery"},{"n":"Hunter's Vambraces","p":"Arms","s":"Hunter Set","r":"2-9","d":121,"k":[["Specimen Expert",1],["Health Recovery",1]],"ss":"Wilds Mastery"},{"n":"Hunter's Coil","p":"Waist","s":"Hunter Set","r":"2-9","d":121,"k":[["Ammo Enhancement",2],["Geo Expert",1],["Weakspot Exploit",1]],"ss":"Wilds Mastery"},{"n":"Hunter's Greaves","p":"Legs","s":"Hunter Set","r":"2-9","d":121,"k":[["Insight",1],["Master Climber",1]],"ss":"Wilds Mastery"},{"n":"High Metal Helm","p":"Head","s":"High Metal Set","r":"4-7","d":95,"k":[["Roar Resistance",1],["Gathering Master",1]],"ss":"Silence of the Veins"},{"n":"High Metal Mail","p":"Chest","s":"High Metal Set","r":"4-7","d":95,"k":[["Ice Damage Up",1],["Defense Up",1]],"ss":"Silence of the Veins"},{"n":"High Metal Braces","p":"Arms","s":"High Metal Set","r":"4-7","d":95,"k":[["Ice Resistance",1],["Morph Boost",1]],"ss":"Silence of the Veins"},{"n":"High Metal Coil","p":"Waist","s":"High Metal Set","r":"4-7","d":95,"k":[["Morph Boost",1],["Relentless Pursuit",1]],"ss":"Silence of the Veins"},{"n":"High Metal Greaves","p":"Legs","s":"High Metal Set","r":"4-7","d":95,"k":[["Roar Resistance",1],["Ice Damage Up",1]],"ss":"Silence of the Veins"},{"n":"Guild Helm","p":"Head","s":"Adventurers' Guild Set","r":"5-6","d":73,"k":[["Guild Might - Helm",6],["Recovery Booster",1],["Quick-Bite",1]],"ss":"Guild's Comeback"},{"n":"Guild Mail","p":"Chest","s":"Adventurers' Guild Set","r":"5-6","d":73,"k":[["Guild Might - Mail",6],["Blessing",1],["Quick-Bite",1]],"ss":"Guild's Comeback"},{"n":"Guild Gauntlets","p":"Arms","s":"Adventurers' Guild Set","r":"5-6","d":73,"k":[["Guild Might - Gauntlets",6],["Blessing",1],["Recovery Booster",1]],"ss":"Guild's Comeback"},{"n":"Guild Coil","p":"Waist","s":"Adventurers' Guild Set","r":"5-6","d":73,"k":[["Guild Might - Coil",6],["Blessing",1],["Flinching-Free",1]],"ss":"Guild's Comeback"},{"n":"Guild Greaves","p":"Legs","s":"Adventurers' Guild Set","r":"5-6","d":73,"k":[["Guild Might - Greaves",6],["Quick-Bite",1],["Recovery Booster",1]],"ss":"Guild's Comeback"}]/*DATA_END*/;
+const MAXL={"Health Boost":3,"Recovery Booster":3,"Health Recovery":3,"Defense Up":7,"Insight":7,"Guard Technique":5,"Flawless":3,"Rejuvenation":3,"Fearless":5,"Unleashed":5,"Adversity":1,"Charge Up":7,"Battle Spirit":5,"Weakspot Exploit":3,"Breaker":3,"Offensive Defense":7,"Flinching-Free":3,"Blessing":5,"Roar Resistance":3,"Windproof":3,"Tremor Resistance":3,"Poison Resistance":3,"Paralysis Resistance":3,"Sleep Resistance":3,"Blast Resistance":3,"Stun Resistance":3,"Bleeding Resistance":3,"Iron Skin":3,"Fire Damage Up":7,"Water Damage Up":7,"Ice Damage Up":7,"Thunder Damage Up":7,"Dragon Damage Up":7,"Critical Element":3,"Fire Resistance":3,"Water Resistance":3,"Ice Resistance":3,"Thunder Resistance":3,"Dragon Resistance":3,"Instinct":1,"Ballistics":1,"Bow Skill Boost":4,"Quick-Bite":3,"Thrifty Meal":3,"Improviser":3,"Deterrence":3,"Gathering Master":1,"Botanical Expert":3,"Geo Expert":3,"Honey Harvester":1,"Carve Master":1,"Carving Pro":5,"Capturing Expert":1,"Specimen Expert":3,"Weakspot Follow-Up":5,"Relentless Pursuit":3,"Counter Boost":7,"Radiant Sense":5,"Health Cycle":3,"Combo Enhancement":7,"Buddy Boost":1,"Bento Lover":7,"Master Climber":1,"Airborne":7,"Item Master":3,"Charge Enhancement":7,"Hunting Instinct":3,"Flash Draw":7,"Spirit Bind Blade":4,"Demonic Strength":4,"Piercing Strike":7,"Charged Power Shot":7,"Immovable Stance":7,"Stamina Conversion":7,"Capacity Boost":7,"Wrecker":4,"Pierce":4,"Intimidation":4,"Ammo Enhancement":4,"Grace Under Pressure":3,"Suppression Recovery":3,"Morph Boost":4,"Guild Might - Helm":8,"Guild Might - Mail":8,"Guild Might - Gauntlets":8,"Guild Might - Coil":8,"Guild Might - Greaves":8};
+const SETS={"Guild's Comeback":[2,"Adversity"],"Great Jagras Resistance":[2,"Stun Resistance"],"Kulu-Ya-Ku Flash Attack":[2,"Instinct"],"Pukei-Pukei Tailwhip":[2,"Poison Resistance"],"Compound Fiber":[2,"Fire Resistance"],"Coldsteel Craft":[3,"Ice Damage Up"],"Great Girros Ambush":[3,"Thunder Damage Up"],"Jyuratodus Aquaguard":[3,"Water Damage Up"],"Barroth Mudguard":[2,"Muck Resistance"],"Sepulcros Divinity":[3,"Dragon Damage Up"],"Wilds Mastery":[2,"Specimen Expert"],"Insulation of the Summit":[2,"Paralysis Resistance"],"Anjanath Ember":[3,"Fire Damage Up"],"Rathian's Instinct":[3,"Radiant Sense"],"Alloy Barrier":[2,"Windproof"],"Great Jagras's Roll":[2,"Insight"],"Pukei-Pukei Territory":[2,"Flawless"],"Hornetaur Might":[2,"Dragon Resistance"],"Silence of the Veins":[2,"Roar Resistance"],"Monocerus Divinity":[2,"Geo Expert"],"Butterfly Bond":[2,"Sleep Resistance"],"Tobi-Kadachi Thunderplate":[2,"Thunder Resistance"],"Anjanath's Wrath":[2,"Breaker"],"Kulu-Ya-Ku's Skill":[2,"Insight"],"Barroth's Resolve":[2,"Guard Technique"],"Ingot Blast Shield":[2,"Blast Resistance"],"Jyuratodus Flowmend":[2,"Water Resistance"],"Rathian Vigor":[2,"Health Boost"],"Rathalos's Weakness":[3,"Weakspot Exploit"],"Diablos's Footing":[2,"Tremor Resistance"],"Great Girros's Command":[2,"Buddy Boost"],"Tobi-Kadachi Surge":[3,"Unleashed"],"Radobaan's Bulwark":[2,"Iron Skin"],"Odogaron's Tenacity":[2,"Bleeding Resistance"],"Legiana Dance":[2,"Ice Resistance"],"Pink Rathian's Acuity":[3,"Hunting Instinct"],"Ruger Aidal's Intimidation":[3,"Weakspot Follow-Up"],"Paolumu's Airflow":[2,"Grace Under Pressure"],"Tzitzi-Ya-Ku's Pursuit":[3,"Relentless Pursuit"],"Paolumu's Presence":[2,"Health Recovery"]};
+const DESC={"Health Boost":"Increases the Adventurer's health.","Recovery Booster":"Increases the recovery gained from items or interactive objects that restore health.","Health Recovery":"Speeds healing of recoverable damage (the gray portion of the health gauge).","Defense Up":"Increases defense.","Insight":"Increases affinity.","Guard Technique":"Reduces stagger time when guarding and the stamina cost of guarding.","Flawless":"Increases damage dealt when health is full.","Rejuvenation":"Health continuously recovers until it reaches a certain value.","Fearless":"Increases damage while you have recoverable damage (the gray portion of your health gauge).","Unleashed":"Temporarily increases affinity when certain conditions are met.","Adversity":"Temporarily increases damage and defense after each faint, up to 2 times.","Charge Up":"Increases damage dealt as long as stamina is kept full for a set duration.","Battle Spirit":"Increases affinity when large monsters become enraged or are in Radiant Rage.","Weakspot Exploit":"Increases affinity when attacking the monster's weak point.","Breaker":"Makes it easier to break or sever parts of large monsters.","Offensive Defense":"After a successful Perfect Guard, increases damage for a set duration.","Flinching-Free":"Reduces reactions to minor damage.","Blessing":"Has a chance to reduce damage taken.","Roar Resistance":"Grants protection against large monsters' roars.","Windproof":"Grants protection against wind pressure.","Tremor Resistance":"Grants protection against ground tremors.","Poison Resistance":"Reduces damage while poisoned.","Paralysis Resistance":"Shortens the duration of paralysis.","Sleep Resistance":"Shortens the duration of sleep.","Blast Resistance":"Grants protection against blastblight.","Stun Resistance":"Shortens stun duration.","Bleeding Resistance":"Grants protection against bleeding.","Iron Skin":"Grants protection against Defense Down.","Fire Damage Up":"Increases fire damage. Enhanced against Radiant monsters.","Water Damage Up":"Increases water damage. Enhanced against Radiant monsters.","Ice Damage Up":"Increases ice damage. Enhanced against Radiant monsters.","Thunder Damage Up":"Increases thunder damage. Enhanced against Radiant monsters.","Dragon Damage Up":"Increases dragon damage. Enhanced against Radiant monsters.","Critical Element":"Increases elemental damage (fire, water, thunder, ice, dragon) when landing critical hits.","Fire Resistance":"Increases the Adventurer's fire resistance.","Water Resistance":"Increases the Adventurer's water resistance.","Ice Resistance":"Increases the Adventurer's ice resistance.","Thunder Resistance":"Increases the Adventurer's thunder resistance.","Dragon Resistance":"Increases the Adventurer's dragon resistance.","Instinct":"Prevents attacks from being deflected.","Ballistics":"Shortens the distance before ammo and arrows reach maximum power.","Bow Skill Boost":"Increases the damage of the bow's Skill 1, Skill 2 and Skill 3.","Quick-Bite":"Speeds up meat-eating and the consumption of items like potions and antidotes.","Thrifty Meal":"Grants a chance to use food or drink items without consuming them.","Improviser":"Recovers extra health from environmental interactables like Sporepuffs.","Deterrence":"Reduces the chance of small monsters attacking after spotting you. No effect on Neopterons.","Gathering Master":"Gather faster, and attacks do not stagger you while gathering.","Botanical Expert":"Increases the quantity of herbs and other consumables gathered.","Geo Expert":"Increases the number of times you can use a gathering point.","Honey Harvester":"Increases the honey received when gathering in the field.","Carve Master":"Lets you carve 1 additional time. No effect when joining mid-quest.","Capturing Expert":"High chance of increased capture rewards. No effect when joining mid-quest.","Specimen Expert":"Lowers the chance of destroying small insect monsters' bodies, so they can be carved.","Weakspot Follow-Up":"Attacking a monster's broken part has a chance to deliver an extra hit.","Relentless Pursuit":"After a monster is staggered or suppressed, increases damage for a set duration.","Counter Boost":"After a Perfect Evade or Parry, increases damage for a set duration.","Radiant Sense":"Increases adventurer damage against monsters in Radiant Rage.","Health Cycle":"Hitting a large monster's broken part recovers health based on damage dealt.","Combo Enhancement":"Consecutive hits within a short time increase damage for a set duration. Pierce or rupture damage cannot trigger this.","Buddy Boost":"Increases buddy damage.","Bento Lover":"After eating BBQ or a portable meal in combat, increases damage for a set duration.","Master Climber":"Reduces stamina use when evading while clinging to walls or vines.","Airborne":"Increases airborne attack damage.","Item Master":"Extends the duration of some item effects.","Charge Enhancement":"After a charged slashing or blunt attack hits, increases damage for a set duration.","Hunting Instinct":"Temporarily increases damage while using devices or endemic life.","Flash Draw":"After a Draw attack, increases damage for a set duration.","Spirit Bind Blade":"Temporarily increases damage when the Spirit Gauge level rises.","Demonic Strength":"Increases damage dealt while in Demon Mode.","Piercing Strike":"A single Pierce attack that lands at least 3 hits increases damage.","Charged Power Shot":"Increases damage while maintaining a charge level with a ranged weapon.","Immovable Stance":"Triggering ferocity increases damage for a set duration.","Stamina Conversion":"Attack skills that cost stamina deal increased damage.","Capacity Boost":"Reloading ammo increases damage for a set duration.","Wrecker":"Staggering a monster or breaking a part with a great sword increases damage for a set duration.","Pierce":"Consecutive hits on the same monster part with a Lance increase damage for a set duration.","Intimidation":"Building up stun with a blunt weapon increases damage for a set duration.","Ammo Enhancement":"Increases the damage of the bowgun's normal, spread and pierce ammo.","Grace Under Pressure":"Increases adventurer defense when Radiant monsters are in Radiant Rage.","Suppression Recovery":"Dealing damage to a suppressed monster recovers health.","Morph Boost":"Increases damage for a period of time when the weapon transforms."};
+const SETFX={"Guild's Comeback":"Each time health is depleted, damage dealt and defense are multiplied by 1.1x and defense +10 for the rest of the hunt (up to 2 times).","Great Jagras Resistance":"Shortens the duration of stun by 60%.","Kulu-Ya-Ku Flash Attack":"Prevents attacks from being deflected.","Pukei-Pukei Tailwhip":"Shortens the duration of poison by 30%.","Compound Fiber":"Fire resistance +6.","Coldsteel Craft":"Ice damage +3%; +8% instead against Radiant monsters.","Great Girros Ambush":"Thunder damage +3%; +8% instead against Radiant monsters.","Jyuratodus Aquaguard":"Water damage +3%; +8% instead against Radiant monsters.","Barroth Mudguard":"Reduces limits on movement speed and evasion.","Sepulcros Divinity":"Dragon damage +3%; +8% instead against Radiant monsters.","Wilds Mastery":"Increases the chance of retaining carves when slaying Insect-type Small Monsters with attacks.","Insulation of the Summit":"Shortens the duration of paralysis by 30%.","Anjanath Ember":"Fire damage +3%; +8% instead against Radiant monsters.","Rathian's Instinct":"Increases adventurer damage by 4% against monsters in Radiant Rage.","Alloy Barrier":"Reduces the effects of minor wind pressure.","Great Jagras's Roll":"Affinity +2%.","Pukei-Pukei Territory":"Increases damage dealt by 3% when health is full.","Hornetaur Might":"Dragon resistance +6.","Silence of the Veins":"Reduces the effects of weak monster roars.","Monocerus Divinity":"Allows you to gather 1 extra time from bonepiles.","Butterfly Bond":"Shortens the duration of sleep by 30%.","Tobi-Kadachi Thunderplate":"Thunder resistance +6.","Anjanath's Wrath":"Makes it easier to break large monster parts, with buildup damage to parts multiplied by 1.1x.","Kulu-Ya-Ku's Skill":"Affinity +2%.","Barroth's Resolve":"Reduces stagger while guarding, and slightly reduces the power of the attack blocked.","Ingot Blast Shield":"Delays blastblight and reduces blast damage.","Jyuratodus Flowmend":"Water resistance +6.","Rathian Vigor":"Health +10.","Rathalos's Weakness":"Attacks on the monster's weak point have 4% increased affinity.","Diablos's Footing":"Nullifies minor ground tremors.","Great Girros's Command":"Multiplies buddy damage by 1.1x.","Tobi-Kadachi Surge":"90s after a hunt begins, or after taking 100 total damage, increases affinity by 3% for 180s.","Radobaan's Bulwark":"Shortens the duration of defense down by 50%.","Odogaron's Tenacity":"Reduces damage while bleeding.","Legiana Dance":"Ice resistance +6.","Pink Rathian's Acuity":"When using an environmental interactive object to inflict negative effects or damage on a monster, increases damage by 4% for 120s.","Ruger Aidal's Intimidation":"Attacking a monster's broken part has a 75% chance to deal 4% additional damage.","Paolumu's Airflow":"Increases adventurer defense by 20 when Radiant monsters are in Radiant Rage.","Tzitzi-Ya-Ku's Pursuit":"After a monster is staggered or suppressed, adventurer damage increases by 4% for 15s.","Paolumu's Presence":"When taking damage, the gray gauge's auto-recovery speed increases by 2x."};
+const DATA_DATE='2026-11-10',STALE_DAYS=14;
 const $=id=>document.getElementById(id);
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const SLOTS=['Head','Chest','Arms','Waist','Legs'];
 const pieces=DATA.map((x,i)=>({id:i,name:x.n,slot:x.p,set:x.s,rar:x.r,def:x.d,ss:x.ss,sk:Object.fromEntries(x.k)}));
 const bySlot={};SLOTS.forEach(s=>bySlot[s]=pieces.filter(p=>p.slot===s));
 const names=[...new Set(pieces.flatMap(p=>Object.keys(p.sk)))].sort();
 const lower=Object.fromEntries(names.map(n=>[n.toLowerCase(),n]));
-const IN=[0,1,2].map(i=>$('in'+i)),LV=[0,1,2].map(i=>$('lv'+i));
-let pins={};
-const MAXL={"Health Boost":3,"Recovery Booster":3,"Health Recovery":3,"Defense Up":7,"Insight":7,"Guard Technique":5,"Flawless":3,"Rejuvenation":3,"Fearless":5,"Unleashed":5,"Adversity":1,"Charge Up":7,"Battle Spirit":5,"Weakspot Exploit":3,"Breaker":3,"Offensive Defense":7,"Flinching-Free":3,"Blessing":5,"Roar Resistance":3,"Windproof":3,"Tremor Resistance":3,"Poison Resistance":3,"Paralysis Resistance":3,"Sleep Resistance":3,"Blast Resistance":3,"Stun Resistance":3,"Bleeding Resistance":3,"Iron Skin":3,"Fire Damage Up":7,"Water Damage Up":7,"Ice Damage Up":7,"Thunder Damage Up":7,"Dragon Damage Up":7,"Critical Element":3,"Fire Resistance":3,"Water Resistance":3,"Ice Resistance":3,"Thunder Resistance":3,"Dragon Resistance":3,"Instinct":1,"Ballistics":1,"Bow Skill Boost":4,"Quick-Bite":3,"Thrifty Meal":3,"Improviser":3,"Deterrence":3,"Gathering Master":1,"Botanical Expert":3,"Geo Expert":3,"Honey Harvester":1,"Carve Master":1,"Carving Pro":5,"Capturing Expert":1,"Specimen Expert":3,"Weakspot Follow-Up":5,"Relentless Pursuit":3,"Counter Boost":7,"Radiant Sense":5,"Health Cycle":3,"Combo Enhancement":7,"Buddy Boost":1,"Bento Lover":7,"Master Climber":1,"Airborne":7,"Item Master":3,"Charge Enhancement":7,"Hunting Instinct":3,"Flash Draw":7,"Spirit Bind Blade":4,"Demonic Strength":4,"Piercing Strike":7,"Charged Power Shot":7,"Immovable Stance":7,"Stamina Conversion":7,"Capacity Boost":7,"Wrecker":4,"Pierce":4,"Intimidation":4,"Ammo Enhancement":4,"Grace Under Pressure":3,"Suppression Recovery":3,"Morph Boost":4,"Guild Might - Helm":8,"Guild Might - Mail":8,"Guild Might - Gauntlets":8,"Guild Might - Coil":8,"Guild Might - Greaves":8};
-const SETS={"Guild's Comeback":[2,"Adversity"],"Great Jagras Resistance":[2,"Stun Resistance"],"Kulu-Ya-Ku Flash Attack":[2,"Instinct"],"Pukei-Pukei Tailwhip":[2,"Poison Resistance"],"Compound Fiber":[2,"Fire Resistance"],"Coldsteel Craft":[3,"Ice Damage Up"],"Great Girros Ambush":[3,"Thunder Damage Up"],"Jyuratodus Aquaguard":[3,"Water Damage Up"],"Barroth Mudguard":[2,"Muck Resistance"],"Sepulcros Divinity":[3,"Dragon Damage Up"],"Wilds Mastery":[2,"Specimen Expert"],"Insulation of the Summit":[2,"Paralysis Resistance"],"Anjanath Ember":[3,"Fire Damage Up"],"Rathian's Instinct":[3,"Radiant Sense"],"Alloy Barrier":[2,"Windproof"],"Great Jagras's Roll":[2,"Insight"],"Pukei-Pukei Territory":[2,"Flawless"],"Hornetaur Might":[2,"Dragon Resistance"],"Silence of the Veins":[2,"Roar Resistance"],"Monocerus Divinity":[2,"Geo Expert"],"Butterfly Bond":[2,"Sleep Resistance"],"Tobi-Kadachi Thunderplate":[2,"Thunder Resistance"],"Anjanath's Wrath":[2,"Breaker"],"Kulu-Ya-Ku's Skill":[2,"Insight"],"Barroth's Resolve":[2,"Guard Technique"],"Ingot Blast Shield":[2,"Blast Resistance"],"Jyuratodus Flowmend":[2,"Water Resistance"],"Rathian Vigor":[2,"Health Boost"],"Rathalos's Weakness":[3,"Weakspot Exploit"],"Diablos's Footing":[2,"Tremor Resistance"],"Great Girros's Command":[2,"Buddy Boost"],"Tobi-Kadachi Surge":[3,"Unleashed"],"Radobaan's Bulwark":[2,"Iron Skin"],"Odogaron's Tenacity":[2,"Bleeding Resistance"],"Legiana Dance":[2,"Ice Resistance"],"Pink Rathian's Acuity":[3,"Hunting Instinct"],"Ruger Aidal's Intimidation":[3,"Weakspot Follow-Up"],"Paolumu's Airflow":[2,"Grace Under Pressure"],"Tzitzi-Ya-Ku's Pursuit":[3,"Relentless Pursuit"],"Paolumu's Presence":[2,"Health Recovery"]};
-const DESC={"Health Boost":"Increases the Adventurer's health.","Recovery Booster":"Increases the recovery gained from items or interactive objects that restore health.","Health Recovery":"Speeds healing of recoverable damage (the gray portion of the health gauge).","Defense Up":"Increases defense.","Insight":"Increases affinity.","Guard Technique":"Reduces stagger time when guarding and the stamina cost of guarding.","Flawless":"Increases damage dealt when health is full.","Rejuvenation":"Health continuously recovers until it reaches a certain value.","Fearless":"Increases damage while you have recoverable damage (the gray portion of your health gauge).","Unleashed":"Temporarily increases affinity when certain conditions are met.","Adversity":"Temporarily increases damage and defense after each faint, up to 2 times.","Charge Up":"Increases damage dealt as long as stamina is kept full for a set duration.","Battle Spirit":"Increases affinity when large monsters become enraged or are in Radiant Rage.","Weakspot Exploit":"Increases affinity when attacking the monster's weak point.","Breaker":"Makes it easier to break or sever parts of large monsters.","Offensive Defense":"After a successful Perfect Guard, increases damage for a set duration.","Flinching-Free":"Reduces reactions to minor damage.","Blessing":"Has a chance to reduce damage taken.","Roar Resistance":"Grants protection against large monsters' roars.","Windproof":"Grants protection against wind pressure.","Tremor Resistance":"Grants protection against ground tremors.","Poison Resistance":"Reduces damage while poisoned.","Paralysis Resistance":"Shortens the duration of paralysis.","Sleep Resistance":"Shortens the duration of sleep.","Blast Resistance":"Grants protection against blastblight.","Stun Resistance":"Shortens stun duration.","Bleeding Resistance":"Grants protection against bleeding.","Iron Skin":"Grants protection against Defense Down.","Fire Damage Up":"Increases fire damage. Enhanced against Radiant monsters.","Water Damage Up":"Increases water damage. Enhanced against Radiant monsters.","Ice Damage Up":"Increases ice damage. Enhanced against Radiant monsters.","Thunder Damage Up":"Increases thunder damage. Enhanced against Radiant monsters.","Dragon Damage Up":"Increases dragon damage. Enhanced against Radiant monsters.","Critical Element":"Increases elemental damage (fire, water, thunder, ice, dragon) when landing critical hits.","Fire Resistance":"Increases the Adventurer's fire resistance.","Water Resistance":"Increases the Adventurer's water resistance.","Ice Resistance":"Increases the Adventurer's ice resistance.","Thunder Resistance":"Increases the Adventurer's thunder resistance.","Dragon Resistance":"Increases the Adventurer's dragon resistance.","Instinct":"Prevents attacks from being deflected.","Ballistics":"Shortens the distance before ammo and arrows reach maximum power.","Bow Skill Boost":"Increases the damage of the bow's Skill 1, Skill 2 and Skill 3.","Quick-Bite":"Speeds up meat-eating and the consumption of items like potions and antidotes.","Thrifty Meal":"Grants a chance to use food or drink items without consuming them.","Improviser":"Recovers extra health from environmental interactables like Sporepuffs.","Deterrence":"Reduces the chance of small monsters attacking after spotting you. No effect on Neopterons.","Gathering Master":"Gather faster, and attacks do not stagger you while gathering.","Botanical Expert":"Increases the quantity of herbs and other consumables gathered.","Geo Expert":"Increases the number of times you can use a gathering point.","Honey Harvester":"Increases the honey received when gathering in the field.","Carve Master":"Lets you carve 1 additional time. No effect when joining mid-quest.","Capturing Expert":"High chance of increased capture rewards. No effect when joining mid-quest.","Specimen Expert":"Lowers the chance of destroying small insect monsters' bodies, so they can be carved.","Weakspot Follow-Up":"Attacking a monster's broken part has a chance to deliver an extra hit.","Relentless Pursuit":"After a monster is staggered or suppressed, increases damage for a set duration.","Counter Boost":"After a Perfect Evade or Parry, increases damage for a set duration.","Radiant Sense":"Increases adventurer damage against monsters in Radiant Rage.","Health Cycle":"Hitting a large monster's broken part recovers health based on damage dealt.","Combo Enhancement":"Consecutive hits within a short time increase damage for a set duration. Pierce or rupture damage cannot trigger this.","Buddy Boost":"Increases buddy damage.","Bento Lover":"After eating BBQ or a portable meal in combat, increases damage for a set duration.","Master Climber":"Reduces stamina use when evading while clinging to walls or vines.","Airborne":"Increases airborne attack damage.","Item Master":"Extends the duration of some item effects.","Charge Enhancement":"After a charged slashing or blunt attack hits, increases damage for a set duration.","Hunting Instinct":"Temporarily increases damage while using devices or endemic life.","Flash Draw":"After a Draw attack, increases damage for a set duration.","Spirit Bind Blade":"Temporarily increases damage when the Spirit Gauge level rises.","Demonic Strength":"Increases damage dealt while in Demon Mode.","Piercing Strike":"A single Pierce attack that lands at least 3 hits increases damage.","Charged Power Shot":"Increases damage while maintaining a charge level with a ranged weapon.","Immovable Stance":"Triggering ferocity increases damage for a set duration.","Stamina Conversion":"Attack skills that cost stamina deal increased damage.","Capacity Boost":"Reloading ammo increases damage for a set duration.","Wrecker":"Staggering a monster or breaking a part with a great sword increases damage for a set duration.","Pierce":"Consecutive hits on the same monster part with a Lance increase damage for a set duration.","Intimidation":"Building up stun with a blunt weapon increases damage for a set duration.","Ammo Enhancement":"Increases the damage of the bowgun's normal, spread and pierce ammo.","Grace Under Pressure":"Increases adventurer defense when Radiant monsters are in Radiant Rage.","Suppression Recovery":"Dealing damage to a suppressed monster recovers health.","Morph Boost":"Increases damage for a period of time when the weapon transforms."};
-const SETFX={"Guild's Comeback":"Each time health is depleted, damage dealt and defense are multiplied by 1.1x and defense +10 for the rest of the hunt (up to 2 times).","Great Jagras Resistance":"Shortens the duration of stun by 60%.","Kulu-Ya-Ku Flash Attack":"Prevents attacks from being deflected.","Pukei-Pukei Tailwhip":"Shortens the duration of poison by 30%.","Compound Fiber":"Fire resistance +6.","Coldsteel Craft":"Ice damage +3%; +8% instead against Radiant monsters.","Great Girros Ambush":"Thunder damage +3%; +8% instead against Radiant monsters.","Jyuratodus Aquaguard":"Water damage +3%; +8% instead against Radiant monsters.","Barroth Mudguard":"Reduces limits on movement speed and evasion.","Sepulcros Divinity":"Dragon damage +3%; +8% instead against Radiant monsters.","Wilds Mastery":"Increases the chance of retaining carves when slaying Insect-type Small Monsters with attacks.","Insulation of the Summit":"Shortens the duration of paralysis by 30%.","Anjanath Ember":"Fire damage +3%; +8% instead against Radiant monsters.","Rathian's Instinct":"Increases adventurer damage by 4% against monsters in Radiant Rage.","Alloy Barrier":"Reduces the effects of minor wind pressure.","Great Jagras's Roll":"Affinity +2%.","Pukei-Pukei Territory":"Increases damage dealt by 3% when health is full.","Hornetaur Might":"Dragon resistance +6.","Silence of the Veins":"Reduces the effects of weak monster roars.","Monocerus Divinity":"Allows you to gather 1 extra time from bonepiles.","Butterfly Bond":"Shortens the duration of sleep by 30%.","Tobi-Kadachi Thunderplate":"Thunder resistance +6.","Anjanath's Wrath":"Makes it easier to break large monster parts, with buildup damage to parts multiplied by 1.1x.","Kulu-Ya-Ku's Skill":"Affinity +2%.","Barroth's Resolve":"Reduces stagger while guarding, and slightly reduces the power of the attack blocked.","Ingot Blast Shield":"Delays blastblight and reduces blast damage.","Jyuratodus Flowmend":"Water resistance +6.","Rathian Vigor":"Health +10.","Rathalos's Weakness":"Attacks on the monster's weak point have 4% increased affinity.","Diablos's Footing":"Nullifies minor ground tremors.","Great Girros's Command":"Multiplies buddy damage by 1.1x.","Tobi-Kadachi Surge":"90s after a hunt begins, or after taking 100 total damage, increases affinity by 3% for 180s.","Radobaan's Bulwark":"Shortens the duration of defense down by 50%.","Odogaron's Tenacity":"Reduces damage while bleeding.","Legiana Dance":"Ice resistance +6.","Pink Rathian's Acuity":"When using an environmental interactive object to inflict negative effects or damage on a monster, increases damage by 4% for 120s.","Ruger Aidal's Intimidation":"Attacking a monster's broken part has a 75% chance to deal 4% additional damage.","Paolumu's Airflow":"Increases adventurer defense by 20 when Radiant monsters are in Radiant Rage.","Tzitzi-Ya-Ku's Pursuit":"After a monster is staggered or suppressed, adventurer damage increases by 4% for 15s.","Paolumu's Presence":"When taking damage, the gray gauge's auto-recovery speed increases by 2x."};
-const setSlug=n=>slug(n.replace(/['’]s\b/g,''));
 const slug=n=>n.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+const setSlug=n=>slug(n.replace(/['’]s\b/g,''));
 const capOf=n=>MAXL[n]||Infinity;
-function valCell(n,v,e){const c=capOf(n),sh=c===Infinity?v:Math.min(v,c)+'/'+c,ex=c===Infinity?e:Math.min(e,Math.max(0,c-v));return `<td>${sh}</td><td>${ex?'+'+ex+' open':(v>c?'+'+(v-c)+' over cap':'')}</td>`}
 const canon=v=>lower[(v||'').trim().toLowerCase()]||null;
-const DATA_DATE='2026-11-10',STALE_DAYS=14;
-(function(){
- const d=new Date(DATA_DATE+'T00:00:00'),age=Math.floor((Date.now()-d)/864e5),old=age>STALE_DAYS;
- const el=$('stamp');el.className=old?'old':'';
- el.title='Open the GamesWith armor list and compare the piece count';
- el.innerHTML=`<span class="dot"></span><span>Data as of ${d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})} &middot; ${pieces.length} pieces &middot; ${names.length} skills &middot; Source: GamesWith</span>`+(old?'<span class="w">Data may be outdated, check the source</span>':'');
-})();
-let optSel=0,sig='';
-function entries(){const o=[],seen=new Set();IN.forEach((e,i)=>{const n=canon(e.value);if(n&&!seen.has(n)){seen.add(n);const t=parseInt(LV[i].value);o.push({n,t:Math.min(t>0?t:Infinity,capOf(n)),i})}});return o}
-function options(pr){
+const SK_URL='https://gamewith.ai/monster-hunter-outlanders/en/skills/';
+const ORD=['first','second','third'];
+
+/* ---------- state ---------- */
+const S={pri:[null,null,null],pins:{},sel:0},openInfo=new Set();
+let LAST={pr:[],opts:[],cur:null,ch:{}};
+function entries(){const o=[];S.pri.forEach((p,i)=>{if(p)o.push({n:p.n,t:Math.min(p.t>0?p.t:Infinity,capOf(p.n)),i})});return o}
+
+/* ---------- optimizer (unchanged logic; pins is now a parameter) ---------- */
+function options(pr,pins){
  if(!pr.length)return[];
  const z=pr.map(()=>0);let S=new Map([[z.join(),{L:z,w:0,u:0,d:0,picks:[]}]]);
  for(const s of SLOTS){
@@ -237,86 +289,197 @@ function options(pr){
  if(fr.length>6){const pk=new Set([fr[0],fr[fr.length-1],bal]);for(let i=1;i<5;i++)pk.add(fr[Math.round(i*(fr.length-1)/5)]);fr=fr.filter(o=>pk.has(o))}
  fr.forEach(o=>o.label=fr.length===1?'Best fit':o===fr[0]?'Favors P1':o===bal?'Balanced':'Trade-off');
  return fr;}
+const stKey=pr=>pr.map(q=>q.n+':'+q.t).join('|')+'#'+SLOTS.map(s=>S.pins[s]==null?'':S.pins[s]).join(',');
+const memo=new Map();
+function solve(pr){const k=stKey(pr);let v=memo.get(k);if(!v){v=options(pr,S.pins);memo.set(k,v);if(memo.size>64)memo.delete(memo.keys().next().value)}return v}
 function freeSkills(pr){
- const o=options(pr)[0],out={};
- SLOTS.forEach((s,i)=>{if(pins[s]!=null||(o&&o.picks[i]))return;const b={};bySlot[s].forEach(p=>{for(const k in p.sk)b[k]=Math.max(b[k]||0,p.sk[k])});for(const k in b)out[k]=(out[k]||0)+b[k]});
- for(const k in out)out[k]=Math.min(out[k],capOf(k));return out;}
+ const o=solve(pr)[0],out={};
+ SLOTS.forEach((s,i)=>{if(S.pins[s]!=null||(o&&o.picks[i]))return;const b={};bySlot[s].forEach(p=>{for(const k in p.sk)b[k]=Math.max(b[k]||0,p.sk[k])});for(const k in b)out[k]=(out[k]||0)+b[k]});
+ for(const k in out)out[k]=Math.min(out[k],capOf(k));return out}
 const byVal=o=>Object.keys(o).sort((a,b)=>o[b]-o[a]||a.localeCompare(b));
+const pct=(l,t)=>t===Infinity?(l>0?1:0):Math.min(1,l/t);
+const lvTxt=(l,t)=>t===Infinity?String(l):l+'/'+t;
+
+/* ---------- persistence ---------- */
+const KEY='mho-planner-v1';
+function save(){try{localStorage.setItem(KEY,JSON.stringify({p:S.pri.map(x=>x&&[x.n,x.t]),k:Object.fromEntries(Object.entries(S.pins).map(([s,id])=>[s,pieces[id].name]))}))}catch(e){}}
+function load(){try{
+ const d=JSON.parse(localStorage.getItem(KEY)||'null');if(!d)return;
+ const seen=new Set();
+ (d.p||[]).slice(0,3).forEach((x,i)=>{const n=x&&canon(x[0]);if(n&&!seen.has(n)){seen.add(n);S.pri[i]={n,t:x[1]>0?x[1]:null}}});
+ for(const s in d.k||{}){const p=(bySlot[s]||[]).find(p=>p.name===d.k[s]);if(p)S.pins[s]=p.id}
+}catch(e){}}
+
+/* ---------- rendering ---------- */
 function render(){
- const pr=entries(),ok=IN.map((e,i)=>pr.some(q=>q.i===i));
- const ns=JSON.stringify([pr.map(q=>[q.n,q.t]),pins]);if(ns!==sig){sig=ns;optSel=0}
- const opts=options(pr);if(optSel>=opts.length)optSel=0;
- const cur=opts[optSel]||null;
- const ch={};SLOTS.forEach((s,i)=>{ch[s]=pins[s]!=null?pieces[pins[s]]:(cur?cur.picks[i]:null)});
- const free=SLOTS.filter(s=>!ch[s]).length;
- IN.forEach((el,i)=>{
-  const pre=pr.filter(q=>q.i<i);
-  $('dl'+i).innerHTML=byVal(freeSkills(pre)).map(n=>`<option value="${esc(n)}"></option>`).join('');
-  const st0=$('st'+i),n=canon(el.value);LV[i].placeholder=n?capOf(n):'max';
-  if(!el.value.trim()){st0.textContent='';return}
-  if(!n){st0.textContent='No match. Choose from the suggestions.';return}
-  if(!ok[i]){st0.textContent='Already used as another priority.';return}
-  const k=pr.findIndex(q=>q.i===i),q=pr[k],lvl=cur?cur.L[k]:0,used=SLOTS.filter(s=>ch[s]&&ch[s].sk[n]).length;
-  st0.innerHTML=`Lv ${lvl}/${q.t} using ${used} slot${used===1?'':'s'}`+(lvl<q.t?' (target not reached)':'')+` &middot; ${free} slot${free===1?'':'s'} free`;
- });
- $('sdet').innerHTML=pr.map(q=>`<div class="sd"><h4><span style="color:var(--c${q.i})">${esc(q.n)}</span><small>Max Lv ${capOf(q.n)}</small></h4><p>${esc(DESC[q.n]||'No description listed.')}</p><a href="https://gamewith.ai/monster-hunter-outlanders/en/skills/${slug(q.n)}" target="_blank" rel="noopener">Effect by level</a></div>`).join('');
- const j=ok.findIndex(x=>!x);
- $('sugs').style.display=j<0?'none':'';
- if(j>=0){const fs=freeSkills(pr.filter(q=>q.i<j));$('pickT').textContent=`Still available for P${j+1}`;
-  $('pick').innerHTML=Object.keys(fs).length?'<div class="list" style="max-height:420px">'+byVal(fs).map(n=>`<button class="sk" data-sk="${esc(n)}"><span>${esc(n)}</span><small>max Lv ${fs[n]}</small></button>`).join('')+'</div>':'<p class="empty">No free slots left.</p>';}
- $('opts').innerHTML=opts.length?opts.map((o,k)=>{
-  const rows=SLOTS.map((sl,i)=>{const p=o.picks[i];
-   if(!p)return `<div class="rw fr"><span class="pt">${sl}</span><span class="pnm">Free slot</span></div>`;
-   const pc=pr.filter(q=>p.sk[q.n]),oth=Object.keys(p.sk).length-pc.length;
-   return `<div class="rw" data-tip="${p.id}"><span class="pt">${sl}</span><span class="pnm">${esc(p.name)}</span><div class="chips">${pc.map(q=>`<span class="c p${q.i}">${esc(q.n)} ${p.sk[q.n]}</span>`).join('')}${oth?`<span class="c">+${oth} other</span>`:''}</div></div>`}).join('');
-  const bars=pr.map((q,i)=>`<div class="sb"><div><span style="color:var(--c${q.i})">${esc(q.n)}</span><span>${o.L[i]}/${q.t}</span></div><i><b style="width:${Math.round(100*o.L[i]/q.t)}%;background:var(--c${q.i})"></b></i></div>`).join('');
-  return `<div class="opt${k===optSel?' sel':''}" data-opt="${k}"><div class="oh"><h3 class="ol">${o.label}</h3><p class="om">${o.w?'overcap '+o.w:'no overcap'} &middot; ${SLOTS.length-o.u} free</p></div>${bars}${rows}</div>`}).join(''):'<section style="grid-column:1/-1"><p class="empty">Enter a skill to see build options.</p></section>';
- $('slots').innerHTML=SLOTS.map(s=>{
-  const c=ch[s],own=c?pr.filter(q=>c.sk[q.n]).map(q=>'P'+(q.i+1)).join('+'):'';
-  const tag=c?`<span class="tag ok">${pins[s]!=null?'pinned':'option'}${own?' &middot; '+own:''}</span>`:'<span class="tag open">free</span>';
-  const score=p=>pr.reduce((a,q)=>a+(p.sk[q.n]||0),0);
-  const list=[...bySlot[s]].sort((a,b)=>(c===b)-(c===a)||score(b)-score(a)||b.def-a.def);
-  const body=list.map(p=>`<button class="pc${c===p?' sel':''}${pr.length&&!score(p)&&c!==p?' dim':''}" data-pin="${s}|${p.id}"><div class="pn"><span>${esc(p.name)}</span><i>Def ${p.def} &middot; R${esc(p.rar)}</i></div><div class="grp">${esc(p.set)}</div><div class="chips">${Object.entries(p.sk).map(([k,v])=>{const q=pr.find(x=>x.n===k);return `<span class="c${q?' p'+q.i:''}">${q?'P'+(q.i+1)+' ':''}${esc(k)} ${v}</span>`}).join('')}</div></button>`).join('');
-  return `<section><div class="sh"><h2>${s}</h2>${tag}</div><div class="list">${body}</div></section>`}).join('');
- const sure={},sets={};
+ const pr=entries(),key=stKey(pr);
+ if(key!==LAST.key){S.sel=0}
+ const opts=pr.length?solve(pr):[];
+ if(S.sel>=opts.length)S.sel=0;
+ const cur=opts[S.sel]||null,ch={};
+ SLOTS.forEach((s,i)=>{ch[s]=S.pins[s]!=null?pieces[S.pins[s]]:(cur?cur.picks[i]:null)});
+ const prevKey=LAST.key;
+ LAST={pr,opts,cur,ch,key};
+ renderPrio();renderOpts(prevKey);renderBuild();renderTotals();
+ $('start').hidden=pr.length>0;
+ $('reset').disabled=!pr.length&&!Object.keys(S.pins).length;
+ save();
+}
+function renderPrio(){
+ const {pr,cur,ch}=LAST,free=SLOTS.filter(s=>!ch[s]).length;
+ $('prio').innerHTML=S.pri.map((p,i)=>{
+  if(!p)return `<button type="button" class="prow empty p${i}" data-act="pick" data-i="${i}"><span class="ptag">P${i+1}</span><span class="pempty">Add ${ORD[i]} priority skill</span><span class="pplus" aria-hidden="true">+</span></button>`;
+  const k=pr.findIndex(q=>q.i===i),q=pr[k],cap=capOf(p.n),stepMax=isFinite(cap)?cap:99;
+  const lvl=cur?cur.L[k]:0,used=SLOTS.filter(s=>ch[s]&&ch[s].sk[p.n]).length;
+  const isMax=p.t==null||p.t>=stepMax,val=isMax?(isFinite(cap)?cap:'max'):p.t;
+  const miss=q.t!==Infinity&&lvl<q.t,open=openInfo.has(i);
+  return `<div class="prow p${i}"><div class="prow-top"><button type="button" class="pmain" data-act="pick" data-i="${i}" aria-label="Change P${i+1} skill, currently ${esc(p.n)}"><span class="ptag">P${i+1}</span><span class="pname">${esc(p.n)}</span></button><button type="button" class="ibtn" data-act="info" data-i="${i}" aria-expanded="${open}" aria-label="About ${esc(p.n)}"><span>i</span></button><button type="button" class="xbtn" data-act="clr" data-i="${i}" aria-label="Remove P${i+1} skill">&times;</button></div>`+
+   `<div class="prow-bot"><span class="pstat">Lv ${lvTxt(lvl,q.t)} &middot; ${used} piece${used===1?'':'s'} &middot; ${free} free${miss?'<span class="warn">Target not reached</span>':''}</span><span class="step" role="group" aria-label="Target level for P${i+1}"><button type="button" data-act="dec" data-i="${i}" aria-label="Lower target level"${!isMax&&p.t<=1||isMax&&stepMax<=1?' disabled':''}>&minus;</button><span class="sval">${val}${p.t==null?'<small>MAX</small>':''}</span><button type="button" data-act="inc" data-i="${i}" aria-label="Raise target level"${p.t==null?' disabled':''}>+</button></span></div>`+
+   (open?`<div class="pinfo"><p>${esc(DESC[p.n]||'No description listed.')}</p><a href="${SK_URL}${slug(p.n)}" target="_blank" rel="noopener">Effect by level &#8599;</a></div>`:'')+`</div>`}).join('');
+}
+function renderOpts(prevKey){
+ const {pr,opts,key}=LAST,box=$('opts');
+ $('optsWrap').hidden=!opts.length;
+ if(!opts.length){box.innerHTML='';return}
+ if(key!==prevKey||!box.children.length){
+  box.innerHTML=opts.map((o,k)=>{
+   const bars=pr.map((q,i)=>`<span class="sb p${q.i}"><span class="sbt"><span>${esc(q.n)}</span><span>${lvTxt(o.L[i],q.t)}</span></span><span class="bar"><i style="transform:scaleX(${pct(o.L[i],q.t).toFixed(3)})"></i></span></span>`).join('');
+   return `<button type="button" class="opt" data-opt="${k}" aria-pressed="false"><span class="oh"><span class="ol">${o.label}</span><span class="om">${o.w?o.w+' over cap':'no overcap'} &middot; ${SLOTS.length-o.u} free</span></span>${bars}</button>`}).join('');
+  box.scrollLeft=0;
+ }
+ for(let k=0;k<box.children.length;k++){const on=k===S.sel,b=box.children[k];b.classList.toggle('sel',on);b.setAttribute('aria-pressed',on)}
+ $('optHint').textContent=opts.length+(opts.length===1?' option':' options · tap to compare');
+}
+function chips(p,pr){
+ const pc=pr.filter(q=>p.sk[q.n]),oth=Object.keys(p.sk).length-pc.length;
+ return pc.map(q=>`<span class="c cp p${q.i}">${esc(q.n)} ${p.sk[q.n]}</span>`).join('')+(oth?`<span class="c">+${oth} other</span>`:'');
+}
+function renderBuild(){
+ const {pr,cur,ch}=LAST,free=SLOTS.filter(s=>!ch[s]).length,hasPins=Object.keys(S.pins).length>0;
+ const rows=SLOTS.map(s=>{
+  const p=ch[s];
+  if(!p)return `<button type="button" class="r2 free" data-act="slot" data-slot="${s}"><span class="slotl">${s}</span><span class="pbody"><span class="piname">Free slot</span><span class="sub">${pr.length?'No priority skill needed here. Tap to choose a piece':'Tap to choose a piece'}</span></span><span class="chev" aria-hidden="true">&rsaquo;</span></button>`;
+  return `<button type="button" class="r2" data-act="piece" data-slot="${s}" data-tip="${p.id}"><span class="slotl">${s}</span><span class="pbody"><span class="piname">${esc(p.name)}</span><span class="chips">${chips(p,pr)}</span></span><span class="pright">${S.pins[s]!=null?'<span class="badge">Pinned</span>':''}<span class="chev" aria-hidden="true">&rsaquo;</span></span></button>`}).join('');
+ $('build').innerHTML=`<div class="card-h"><h2>Selected build</h2><span class="hint">${cur?esc(cur.label)+' &middot; ':''}${free} free slot${free===1?'':'s'}</span></div><div class="rows">${rows}</div>${hasPins?'<button type="button" class="link" data-act="unpinall">Unpin all pieces</button>':''}`;
+}
+function renderTotals(){
+ const {pr,ch}=LAST,sure={},sets={};
  SLOTS.forEach(s=>{const c=ch[s];if(!c)return;for(const k in c.sk)sure[k]=(sure[k]||0)+c.sk[k];if(c.ss)sets[c.ss]=(sets[c.ss]||0)+1});
  const pi=n=>pr.findIndex(q=>q.n===n);
  const ks=[...new Set([...Object.keys(sure),...pr.map(q=>q.n)])].sort((a,b)=>{const pa=pi(a),pb=pi(b);if(pa>=0||pb>=0)return(pa<0?99:pa)-(pb<0?99:pb);return(sure[b]||0)-(sure[a]||0)||a.localeCompare(b)});
  const ss=Object.entries(sets).map(([n,c])=>{const d=SETS[n]||[2,''];return{n,c,r:d[0],k:d[1],on:c>=d[0]}}).sort((a,b)=>b.on-a.on||b.c-a.c);
- $('tot').innerHTML=(ks.length?`<table>${ks.map(n=>`<tr class="${pi(n)>=0?'p'+pr[pi(n)].i:''}"><td>${esc(n)}</td>${valCell(n,sure[n]||0,0)}</tr>`).join('')}</table>`:'<p class="empty">Nothing selected.</p>')+(ss.length?`<p class="sub">Set skills</p><table>${ss.map(e=>`<tr class="${e.on?'on':''}"><td>${esc(e.n)}${e.k?' <span class="mu">+1 '+esc(e.k)+'</span>':''}<div class="mu">${esc(SETFX[e.n]||'')} <a href="https://gamewith.ai/monster-hunter-outlanders/en/skills/set/${setSlug(e.n)}" target="_blank" rel="noopener">Details</a></div></td><td>${e.c}/${e.r}</td><td>${e.on?'active':''}</td></tr>`).join('')}</table>`:'');
+ const rows=ks.map(n=>{
+  const v=sure[n]||0,c=capOf(n),q=pr[pi(n)],shown=c===Infinity?v:Math.min(v,c)+'/'+c,over=v>c?v-c:0;
+  return `<div class="trow${q?' cp p'+q.i:''}"><div class="tt"><span>${esc(n)}</span><span class="tv">${shown}${over?`<span class="over">+${over} over cap</span>`:''}</span></div>${q?`<span class="bar"><i style="transform:scaleX(${pct(Math.min(v,c),c).toFixed(3)})"></i></span>`:''}</div>`}).join('');
+ const setRows=ss.map(e=>`<div class="setb${e.on?' on':''}"><div class="tt"><span>${esc(e.n)}${e.k?`<span class="mu" style="display:block;margin:0">+1 ${esc(e.k)}</span>`:''}</span><span class="tv">${e.c}/${e.r}${e.on?' active':''}</span></div><p class="mu">${esc(SETFX[e.n]||'')} <a href="https://gamewith.ai/monster-hunter-outlanders/en/skills/set/${setSlug(e.n)}" target="_blank" rel="noopener">Details</a></p></div>`).join('');
+ $('tot').innerHTML=`<div class="card-h"><h2>Skills in this build</h2></div>`+(rows||'<p class="mu">Nothing selected yet.</p>')+(setRows?`<div class="sub-h">Set skills</div>${setRows}<p class="note">Set bonuses are not added to the levels above and are not used when choosing pieces.</p>`:'');
 }
-document.addEventListener('click',e=>{
- const oc=e.target.closest('[data-opt]');if(oc){optSel=+oc.dataset.opt;render();return}
- const t=e.target.closest('button');if(!t)return;
- if(t.dataset.sk){const j=IN.findIndex(x=>!canon(x.value));if(j>=0){IN[j].value=t.dataset.sk;render()}}
- else if(t.dataset.pin){const[s,id]=t.dataset.pin.split('|');pins[s]===+id?delete pins[s]:pins[s]=+id;render()}
+
+/* ---------- sheets ---------- */
+const dlg=$('sheet');
+function openSheet(title,html){
+ hideTip();$('sheetT').textContent=title;$('sheetB').innerHTML=html;$('sheetB').scrollTop=0;
+ document.documentElement.classList.add('lock');
+ if(!dlg.open)dlg.showModal();
+}
+dlg.addEventListener('close',()=>document.documentElement.classList.remove('lock'));
+dlg.addEventListener('click',e=>{if(e.target===dlg)dlg.close()});
+$('sheetX').addEventListener('click',()=>dlg.close());
+
+function openSkills(i){
+ const pr=entries(),fs=freeSkills(pr.filter(q=>q.i<i)),taken=new Set(pr.filter(q=>q.i!==i).map(q=>q.n));
+ const cur=S.pri[i]&&S.pri[i].n,list=byVal(fs).filter(n=>!taken.has(n));
+ const rest=names.filter(n=>!fs[n]&&!taken.has(n));
+ const row=(n,lv)=>`<button type="button" class="srow${n===cur?' cur':''}" data-act="setsk" data-i="${i}" data-n="${esc(n)}" data-k="${esc(n.toLowerCase())}"><span class="sr-main"><span class="sr-name">${esc(n)}</span><span class="sr-desc">${esc(DESC[n]||'')}</span></span><span class="sr-lv">${lv}</span></button>`;
+ const rows=list.map(n=>row(n,'up to Lv '+fs[n])).join('')+(rest.length?`<div class="sr-div" id="sdiv"><b>Not reachable with the free slots</b><span>Choosing one trades off against earlier priorities</span></div>`+rest.map(n=>row(n,'trade-off')).join(''):'');
+ openSheet(`Choose skill for P${i+1}`,`<div class="searchwrap"><input id="sq" class="search" type="search" placeholder="Search skills" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="done" aria-label="Search skills"></div><div id="slist">${rows||'<p class="none">No skills available.</p>'}<p class="none" id="snone" hidden>No skill matches.</p></div>`);
+ if(matchMedia('(pointer:fine)').matches)$('sq').focus();
+}
+document.addEventListener('input',e=>{
+ if(e.target.id!=='sq')return;
+ const q=e.target.value.trim().toLowerCase(),div=$('sdiv');let n=0,afterDiv=0,past=false;
+ for(const b of $('slist').children){if(b===div){past=true;continue}if(!b.dataset.k)continue;const hit=!q||b.dataset.k.includes(q);b.hidden=!hit;if(hit){n++;if(past)afterDiv++}}
+ if(div)div.hidden=!afterDiv;
+ $('snone').hidden=n>0||!$('slist').querySelector('[data-k]');
 });
-IN.concat(LV).forEach(el=>el.addEventListener('input',render));
-$('reset').addEventListener('click',()=>{IN.concat(LV).forEach(x=>x.value='');pins={};render()});
-render();
-const tip=$('tip'),touch=()=>matchMedia('(hover:none)').matches;
-function fillTip(el){
- const p=pieces[+el.dataset.tip],pr=entries();
- const sk=Object.entries(p.sk).map(([k,v])=>{const q=pr.find(x=>x.n===k);return `<div class="tl${q?' p'+q.i:''}"><span>${esc(k)}</span><span>Lv ${v}/${MAXL[k]}</span></div>`}).join('');
+document.addEventListener('keydown',e=>{
+ if(e.key!=='Enter'||e.target.id!=='sq')return;
+ const b=[...$('slist').querySelectorAll('[data-k]')].find(x=>!x.hidden);if(b){e.preventDefault();b.click()}
+});
+
+function pieceInfo(p){
+ const pr=LAST.pr,cnt={};SLOTS.forEach(s=>{const c=LAST.ch[s];if(c&&c.ss)cnt[c.ss]=(cnt[c.ss]||0)+1});
+ const sk=Object.entries(p.sk).map(([k,v])=>{const q=pr.find(x=>x.n===k),c=capOf(k);return `<div class="tl${q?' cp p'+q.i:''}"><span>${esc(k)}</span><span>Lv ${v}${isFinite(c)?' / '+c:''}</span></div>`}).join('');
  const d=SETS[p.ss];
- tip.innerHTML=`<h4>${esc(p.name)}</h4><div class="t2">${p.slot} &middot; ${esc(p.set)} &middot; Def ${p.def} &middot; Rarity ${esc(p.rar)}</div>${sk}${p.ss?`<div class="ts">Set skill: ${esc(p.ss)}${d?` (${d[0]} pieces, +1 ${esc(d[1])})`:''}<div class="tx">${esc(SETFX[p.ss]||'')}</div></div>`:''}<button class="x" id="tipx">Close</button>`;
+ const set=p.ss?`<div class="setb"><div class="tt"><span>Set skill</span><span>${esc(p.ss)}</span></div><p>${d?`${d[0]} pieces needed${d[1]?' &rarr; +1 '+esc(d[1]):''}`:''}${cnt[p.ss]?` &middot; ${cnt[p.ss]} in this build`:''}</p><p>${esc(SETFX[p.ss]||'')}</p></div>`:'';
+ return `<div class="pi-meta">${p.slot} &middot; ${esc(p.set)} &middot; Def ${p.def} &middot; Rarity ${esc(p.rar)}</div>${sk}${set}`;
 }
-function showTip(e){
- if(touch())return;
- const el=e.target.closest('[data-tip]');if(!el){tip.style.display='none';return}
- fillTip(el);tip.classList.remove('sheet');tip.style.display='block';
- const w=tip.offsetWidth,h=tip.offsetHeight;let x=e.clientX+14,y=e.clientY+14;
- if(x+w>innerWidth-8)x=e.clientX-w-14;if(y+h>innerHeight-8)y=innerHeight-h-8;
- tip.style.left=Math.max(8,x)+'px';tip.style.top=Math.max(8,y)+'px';}
-document.addEventListener('mousemove',showTip);
-document.addEventListener('mouseleave',()=>{if(!touch())tip.style.display='none'});
-document.addEventListener('click',e=>{
- if(!touch())return;
- if(e.target.closest('#tipx')){tip.style.display='none';return}
- const el=e.target.closest('[data-tip]');
- if(el){fillTip(el);tip.classList.add('sheet');tip.style.left='';tip.style.top='';tip.style.display='block'}
- else if(!e.target.closest('#tip'))tip.style.display='none';
+function openPiece(slot){
+ const p=LAST.ch[slot];if(!p)return;const pinned=S.pins[slot]!=null;
+ openSheet(p.name,`<div class="pi">${pieceInfo(p)}</div><div class="acts">${pinned?`<button type="button" class="btn ghost" data-act="unpin" data-slot="${slot}">Unpin this piece</button>`:`<button type="button" class="btn" data-act="pin" data-slot="${slot}" data-id="${p.id}">Pin this piece</button>`}<button type="button" class="btn ghost" data-act="slot" data-slot="${slot}">Choose a different piece</button></div>`);
+}
+function openSlot(slot){
+ const {pr,ch}=LAST,c=ch[slot],score=p=>pr.reduce((a,q)=>a+(p.sk[q.n]||0),0);
+ const list=[...bySlot[slot]].sort((a,b)=>(c===b)-(c===a)||score(b)-score(a)||b.def-a.def);
+ const rows=list.map(p=>`<button type="button" class="pl${c===p?' cur':''}${pr.length&&!score(p)&&c!==p?' dim':''}" data-act="pin" data-slot="${slot}" data-id="${p.id}"><span class="r1"><span class="pn">${esc(p.name)}</span><span class="pd">Def ${p.def} &middot; R${esc(p.rar)}</span></span><span class="sub">${esc(p.set)}</span><span class="chips">${Object.entries(p.sk).map(([k,v])=>{const q=pr.find(x=>x.n===k);return `<span class="c${q?' cp p'+q.i:''}">${esc(k)} ${v}</span>`}).join('')}</span></button>`).join('');
+ openSheet(`${slot}: choose a piece`,(S.pins[slot]!=null?`<button type="button" class="unpin" data-act="unpin" data-slot="${slot}">Let the planner choose this slot</button>`:'')+rows);
+}
+function openData(){
+ const d=new Date(DATA_DATE+'T00:00:00'),age=Math.floor((Date.now()-d)/864e5),old=age>STALE_DAYS;
+ const when=d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+ openSheet('About the data',`<div class="info">${old?`<p class="warnbox">This data is ${age} days old and may be outdated. Compare the piece count with the source.</p>`:''}<dl><div><dt>Data as of</dt><dd>${when}</dd></div><div><dt>Pieces</dt><dd>${pieces.length}</dd></div><div><dt>Skills</dt><dd>${names.length}</dd></div></dl><p>Armor, skill and set data comes from GamesWith. Compare the piece count above with their armor list to check whether this data is current. The planner cannot check the source by itself.</p><a class="btn ghost" href="https://gamewith.ai/monster-hunter-outlanders/en/armor" target="_blank" rel="noopener">Open the GamesWith armor list</a><p>Unofficial fan project. Not affiliated with or endorsed by Capcom or the Monster Hunter Outlanders developers. Monster Hunter is a trademark of Capcom.</p></div>`);
+}
+
+/* ---------- desktop hover preview (mouse only, no mousemove tracking) ---------- */
+const tip=$('tip');let tipEl=null;
+function hideTip(){tipEl=null;tip.hidden=true}
+document.addEventListener('pointerover',e=>{
+ if(e.pointerType!=='mouse'||dlg.open||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+ const el=e.target.closest&&e.target.closest('[data-tip]');
+ if(el===tipEl)return;
+ if(!el){hideTip();return}
+ tipEl=el;const p=pieces[+el.dataset.tip];
+ tip.innerHTML=`<h4>${esc(p.name)}</h4>${pieceInfo(p)}`;tip.hidden=false;
+ const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
+ let x=r.right+10;if(x+w>innerWidth-8)x=Math.max(8,r.left-w-10);
+ tip.style.transform=`translate(${x}px,${Math.min(Math.max(8,r.top),Math.max(8,innerHeight-h-8))}px)`;
 });
+document.documentElement.addEventListener('mouseleave',hideTip);
+addEventListener('scroll',hideTip,{passive:true});
+
+/* ---------- actions ---------- */
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-act],[data-opt]');if(!b)return;
+ hideTip();
+ if(b.dataset.opt!=null){S.sel=+b.dataset.opt;render();return}
+ const a=b.dataset.act,i=+b.dataset.i,slot=b.dataset.slot;
+ if(a==='pick')openSkills(i);
+ else if(a==='setsk'){const n=b.dataset.n,prev=S.pri[i];S.pri[i]={n,t:prev&&prev.n===n?prev.t:null};dlg.close();render()}
+ else if(a==='clr'){S.pri[i]=null;openInfo.delete(i);render()}
+ else if(a==='info'){openInfo.has(i)?openInfo.delete(i):openInfo.add(i);renderPrio()}
+ else if(a==='dec'||a==='inc'){
+  const p=S.pri[i],cap=capOf(p.n),max=isFinite(cap)?cap:99,cur=p.t==null?max:p.t;
+  if(a==='dec'&&cur>1)p.t=cur-1;
+  else if(a==='inc'&&p.t!=null)p.t=p.t+1>=max?null:p.t+1;
+  render()}
+ else if(a==='piece')openPiece(slot);
+ else if(a==='slot')openSlot(slot);
+ else if(a==='pin'){S.pins[slot]=+b.dataset.id;dlg.close();render()}
+ else if(a==='unpin'){delete S.pins[slot];dlg.close();render()}
+ else if(a==='unpinall'){S.pins={};render()}
+});
+$('reset').addEventListener('click',()=>{S.pri=[null,null,null];S.pins={};S.sel=0;openInfo.clear();render()});
+$('infoBtn').addEventListener('click',openData);
+
+/* ---------- data stamp ---------- */
+(function(){
+ const d=new Date(DATA_DATE+'T00:00:00'),old=Math.floor((Date.now()-d)/864e5)>STALE_DAYS,b=$('infoBtn');
+ b.classList.toggle('old',old);
+ $('infoTxt').textContent=d.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+ b.setAttribute('aria-label','About the data, as of '+d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})+(old?', may be outdated':''));
+})();
+
+load();render();
 </script>
 </body>
 </html>
